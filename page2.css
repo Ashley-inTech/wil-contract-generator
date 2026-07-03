@@ -1,0 +1,297 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:'Poppins',sans-serif;
+    background:#d9d9d9;
+    color:#222;
+    line-height:1.6;
+}
+
+.container{
+    width:110vh;
+    min-height:150vh;
+    margin: auto;
+    background:#ffffff;
+    box-shadow:0 0 20px rgba(0,0,0,.15);
+}
+
+header{
+    width:110vh;
+    margin:auto;
+}
+
+header::before{
+    content:"";
+    display:block;
+    height:38px;
+    background:linear-gradient(90deg,#b70089,#77005c);
+}
+
+.company-info{
+    height:90px;
+    background:#252525;
+    position:relative;
+    display:flex;
+    justify-content:flex-end;
+    align-items:center;
+    padding-right:40px;
+}
+
+.logo{
+    position:absolute;
+    left:70px;
+    top:-38px;
+    width:120px;
+    height:160px;
+    background:#11a7aa;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    color:#fff;
+    box-shadow:0 6px 15px rgba(0,0,0,.25);
+}
+
+.logo img{
+    width:72px;
+    margin-bottom:8px;
+}
+
+.logo h3{
+    font-size:15px;
+    font-weight:300;
+    text-transform:uppercase;
+}
+
+.logo span{
+    font-weight:700;
+}
+
+.company-details ul{
+    list-style:none;
+}
+
+.company-details li{
+    color:#fff;
+    font-size:12px;
+    margin:7px 0;
+    text-align:right;
+}
+
+/*=============================
+        DOCUMENT
+=============================*/
+
+.container{
+    width:210mm;
+    min-height:297mm;
+    margin:auto;
+    background:#fff;
+    position:relative;
+    overflow:hidden;
+    padding:55px 65px;
+    box-shadow:0 0 20px rgba(0,0,0,.15);
+}
+
+/*=============================
+        WATERMARK
+=============================*/
+
+.container::before{
+
+    content:"";
+
+    position:absolute;
+
+    width:430px;
+    height:430px;
+
+    left:-110px;
+    top:90px;
+
+    background:url("logo-watermark.png") center no-repeat;
+    background-size:contain;
+
+    opacity:.05;
+
+}
+
+/*=============================
+        SECTIONS
+=============================*/
+
+section{
+    position:relative;
+    z-index:2;
+    margin-bottom:30px;
+}
+
+section h4{
+    font-size:15px;
+    font-weight:700;
+    margin-bottom:15px;
+    text-transform:uppercase;
+}
+
+section p{
+    font-size:13px;
+    line-height:1.7;
+    margin-bottom:10px;
+    text-align:justify;
+}
+
+/*=============================
+        ROLE INPUT
+=============================*/
+
+#role{
+    width:220px;
+    border:none;
+    border-bottom:1px solid #444;
+    outline:none;
+    font-size:13px;
+    background:transparent;
+    padding:3px;
+}
+
+#role:focus{
+    border-bottom:2px solid #11a7aa;
+}
+
+/*=============================
+        RESPONSIBILITIES
+=============================*/
+
+textarea{
+    width:100%;
+    min-height:260px;
+    border:1px solid #cfcfcf;
+    resize:none;
+    padding:15px;
+    font-family:'Poppins',sans-serif;
+    font-size:13px;
+    line-height:1.8;
+    outline:none;
+    background:#fff;
+}
+
+textarea:focus{
+    border:1px solid #11a7aa;
+}
+
+/*=============================
+        BUTTON
+=============================*/
+
+.next-page{
+    width:210mm;
+    margin:25px auto;
+    display:flex;
+    justify-content:center;
+}
+
+#nextPage{
+    background:#11a7aa;
+    color:#fff;
+    border:none;
+    padding:12px 35px;
+    border-radius:5px;
+    cursor:pointer;
+    transition:.3s;
+    font-size:15px;
+}
+
+#nextPage:hover{
+    background:#0d8f92;
+    transform:translateY(-2px);
+}
+
+#nextPage a{
+    color:#fff;
+    text-decoration:none;
+}
+
+/*=============================
+        FOOTER
+=============================*/
+
+footer{
+    width:210mm;
+    margin:auto;
+    display:flex;
+    height:22px;
+}
+
+.left{
+    width:50%;
+    background:#37bfd0;
+}
+
+.right{
+    width:50%;
+    background:#0b9194;
+}
+
+/*=============================
+        RESPONSIVE
+=============================*/
+
+@media(max-width:900px){
+
+    header,
+    .container,
+    footer{
+        width:100%;
+    }
+
+    .container{
+        padding:35px;
+    }
+
+    .logo{
+        left:25px;
+    }
+
+    section{
+        padding:0;
+    }
+
+    #role{
+        width:100%;
+        display:block;
+        margin-top:10px;
+    }
+
+    textarea{
+        min-height:220px;
+    }
+
+}
+
+/*=============================
+            PRINT
+=============================*/
+
+@media print{
+
+    body{
+        background:#fff;
+    }
+
+    .container{
+        width:100%;
+        margin:0;
+        box-shadow:none;
+    }
+
+    .next-page{
+        display:none;
+    }
+
+}
