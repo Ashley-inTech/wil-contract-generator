@@ -9,7 +9,10 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <!--<script src="https://cdn.jsdelivr.net/npm/signature_pad@4.1.7/dist/signature_pad.umd.min.js"></script>-->
 
-    <link rel="stylesheet" href="index.css" />
+     <!-- docx.js library for DOCX generation -->
+    <script src="https://cdn.jsdelivr.net/npm/docx@8.0.0/build/index.min.js"></script>
+
+    <link rel="stylesheet" href="css/index.css" />
   </head>
 
   <body>
@@ -92,14 +95,41 @@
         <div class="page-content">
           <section>
             <h6>3. ROLE AND RESPONSIBILITIES</h6>
+
+            <div class="editor-only">
+              <label>Career Category</label>
+
+              <select id="careerCategory" >
+                  <option value="">-- Select Career --</option>
+              </select>
+
+              <button type="button" id="addCareerBtn">
+                  Add Career
+              </button>
+
+            </div>
+
             <p>
               3.1 The Participant's role will focus on
-              <input type="text" id="role" name="role" placeholder="Software Engineer" />
-            </p>
-            <p>3.2 Responsibilities include but are not limited to:</p>
-            <textarea id="responsibilities" name="responsibilities" rows="12" placeholder="Enter participant responsibilities here..."></textarea>
 
-            <div id="responsibilitiesPreview" class="pdf-preview"></div>
+              <input
+                  type="text"
+                  id="role"
+                  placeholder="Role"/>
+            </p>
+
+            <p>3.2 Responsibilities include but are not limited to:</p>
+
+            <textarea
+                id="responsibilities"
+                rows="12">
+            </textarea>
+
+            <div
+                id="responsibilitiesPreview"
+                class="pdf-preview">
+            </div>
+
           </section>
 
           <section>
@@ -230,6 +260,45 @@
 
     </div>
 
+    <!-- ================= Career Modal ================= -->
+    <div id="careerModal" class="modal">
+
+        <div class="modal-content">
+
+            <h3>Add Career Category</h3>
+
+            <label>Career Name</label>
+
+            <input
+                type="text"
+                id="modalCareerName"
+                placeholder="Software Engineer"
+            >
+
+            <br><br>
+
+            <label>Responsibilities</label>
+
+            <textarea
+                id="modalResponsibilities"
+                rows="8"
+                placeholder="Enter responsibilities..."
+            ></textarea>
+
+            <br><br>
+
+            <button id="saveCareerBtn">
+                Save
+            </button>
+
+            <button id="cancelCareerBtn">
+                Cancel
+            </button>
+
+        </div>
+
+    </div>
+
     <!-- ======================= ACTION BUTTONS (screen only) ======================= -->
     <section class="download-section">
       <button id="downloadWord" type="button">Download as Word</button>
@@ -239,446 +308,13 @@
     <!-- ============================================================ -->
     <!-- SCRIPTS -->
     <!-- ============================================================ -->
-     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
     <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.2.0/dist/signature_pad.umd.min.js"></script>
-    <script>
-      let signaturePad;
-      let canvas;
 
-      function getOrdinal(day) {
+    <script src="js/careers.js"></script>
+    <script src="js/modal.js"></script>
+    <script src="js/app.js"></script>
 
-          if (day > 3 && day < 21) return day + "th";
-
-          switch (day % 10) {
-              case 1: return day + "st";
-              case 2: return day + "nd";
-              case 3: return day + "rd";
-              default: return day + "th";
-          }
-
-      }
-        /**
-         * Enhanced PDF Download Function
-         * Captures the entire document with proper pagination
-         */
-        async function downloadPDF() {
-
-          const { jsPDF } = window.jspdf;
-
-          const button = document.getElementById("downloadPDF");
-          const originalText = button.innerHTML;
-
-          button.innerHTML = "Generating PDF...";
-          button.disabled = true;
-
-          const downloadSection = document.querySelector(".download-section");
-          downloadSection.style.display = "none";
-
-          const textarea = document.getElementById("responsibilities");
-          const preview = document.getElementById("responsibilitiesPreview");
-
-          preview.textContent = textarea.value;
-
-          textarea.style.display = "none";
-          preview.style.display = "block";
-
-          const clearBtn = document.getElementById("clearSignature");
-            clearBtn.style.display = "none";
-
-          const date = new Date();
-
-          const day = date.getDate();
-
-          const month = date.toLocaleString("default", {
-              month: "long"
-          });
-
-          const year = date.getFullYear();
-
-          try {
-
-              const participant =
-                  document.getElementById("participantName").value.trim() || "Participant";
-
-              document.getElementById("formattedDate").textContent =
-                `${getOrdinal(day)} day of ${month} ${year}`;
-
-              if(signaturePad.isEmpty()){
-
-                  alert("Please sign before downloading.");
-
-                  return;
-
-              }
-
-              const pdf = new jsPDF({
-                  orientation: "portrait",
-                  unit: "mm",
-                  format: "a4"
-              });
-
-              const pages = document.querySelectorAll(".page");
-
-              for (let i = 0; i < pages.length; i++) {
-
-                  const canvas = await html2canvas(pages[i], {
-                      scale: 2,
-                      useCORS: true,
-                      allowTaint: true,
-                      backgroundColor: "#ffffff",
-                      logging: false
-                  });
-
-                  const imgData = canvas.toDataURL("image/jpeg", 1.0);
-
-                  const pdfWidth = 210;
-                  const pdfHeight = 297;
-
-                  if (i > 0) {
-                      pdf.addPage();
-                  }
-
-                  pdf.addImage(
-                      imgData,
-                      "JPEG",
-                      0,
-                      0,
-                      pdfWidth,
-                      pdfHeight
-                  );
-              }
-
-              pdf.save(`Hiteknology_Contract_Agreement_${participant}.pdf`);
-
-          }
-          catch (err) {
-
-              console.error(err);
-              alert("Failed to generate PDF.\n\n" + err.message);
-
-          }
-          finally {
-
-            downloadSection.style.display = "flex";
-            clearBtn.style.display = "inline-block"; // or "block", depending on your CSS
-
-            // Restore responsibilities textarea
-            textarea.style.display = "block";
-            preview.style.display = "none";
-
-            // Hide formatted date again if you're using it
-            document.getElementById("formattedDate").textContent = "";
-
-            button.innerHTML = originalText;
-            button.disabled = false;
-
-          }
-
-        }
-        /**
-         * Enhanced Word Download Function
-         * Creates a clean Word document with proper formatting
-         */
-        function downloadWord() {
-            try {
-                const container = document.getElementById("document");
-                
-                // Clone the container to avoid modifying the original
-                const clone = container.cloneNode(true);
-                
-                // Remove any download sections from the clone
-                const downloadSections = clone.querySelectorAll('.download-section');
-                downloadSections.forEach(section => section.remove());
-
-                // Get all styles from the document
-                const styles = document.querySelector('style')?.innerHTML || '';
-                
-                // Get additional styles from link tags
-                let linkStyles = '';
-                const linkTags = document.querySelectorAll('link[rel="stylesheet"]');
-                linkTags.forEach(link => {
-                    if (link.href) {
-                        linkStyles += `<link rel="stylesheet" href="${link.href}" />\n`;
-                    }
-                });
-
-                // Build the Word document HTML
-                const fullHtml = `
-                    <!DOCTYPE html>
-                    <html>
-                    <head>
-                        <meta charset="UTF-8">
-                        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-                        <title>Work Integrated Learning Agreement</title>
-                        ${linkStyles}
-                        <style>
-                            /* Print styles for Word */
-                            * {
-                                margin: 0;
-                                padding: 0;
-                                box-sizing: border-box;
-                            }
-                            
-                            body {
-                                background: white;
-                                padding: 20mm 15mm;
-                                font-family: 'Times New Roman', Times, serif;
-                            }
-                            
-                            .page {
-                                background: white;
-                                padding: 15mm 12mm;
-                                margin-bottom: 20px;
-                                page-break-after: always;
-                                border-bottom: 2px dashed #ccc;
-                            }
-                            
-                            .page:last-child {
-                                border-bottom: none;
-                                page-break-after: auto;
-                            }
-                            
-                            /* Copy all existing styles */
-                            ${styles}
-                            
-                            /* Ensure inputs look good in Word */
-                            input[type="text"], textarea {
-                                border: none;
-                                border-bottom: 1px solid #999;
-                                padding: 2px 4px;
-                                background: transparent;
-                                min-width: 120px;
-                            }
-                            
-                            textarea {
-                                border: 1px solid #ccc;
-                                border-radius: 4px;
-                                padding: 8px;
-                                width: 100%;
-                                min-height: 80px;
-                            }
-                            
-                            .download-section {
-                                display: none !important;
-                            }
-                            
-                            /* Fix for company info */
-                            .company-info {
-                                display: flex;
-                                justify-content: space-between;
-                                align-items: center;
-                                border-bottom: 2px solid #1a237e;
-                                padding-bottom: 10px;
-                                margin-bottom: 20px;
-                                flex-wrap: wrap;
-                            }
-                            
-                            .logo {
-                                display: flex;
-                                align-items: center;
-                                gap: 10px;
-                            }
-                            
-                            .logo img {
-                                height: 45px;
-                                width: auto;
-                            }
-                            
-                            .company-details ul {
-                                list-style: none;
-                                font-size: 11px;
-                            }
-                            
-                            .company-details ul li {
-                                margin-bottom: 2px;
-                            }
-                            
-                            /* Section styles */
-                            section {
-                                margin-bottom: 15px;
-                            }
-                            
-                            h5, h6, h2 {
-                                color: #1a237e;
-                                font-family: Arial, Helvetica, sans-serif;
-                                margin-bottom: 8px;
-                            }
-                            
-                            h5 {
-                                font-size: 16px;
-                                text-align: center;
-                                text-transform: uppercase;
-                            }
-                            
-                            h6 {
-                                font-size: 14px;
-                                text-transform: uppercase;
-                            }
-                            
-                            p {
-                                font-size: 13px;
-                                line-height: 1.6;
-                                margin-bottom: 5px;
-                            }
-                            
-                            .field-group {
-                                margin: 8px 0;
-                            }
-                            
-                            .field-group label {
-                                font-weight: bold;
-                                display: block;
-                                font-size: 13px;
-                            }
-                            
-                            hr {
-                                margin: 15px 0;
-                                border: none;
-                                border-top: 1px solid #ddd;
-                            }
-                            
-                            .contacts {
-                                margin-top: 20px;
-                                padding: 15px;
-                                background: #f5f5f5;
-                                border-radius: 4px;
-                                text-align: center;
-                                font-size: 12px;
-                            }
-                            
-                            .contacts p {
-                                margin-bottom: 3px;
-                                font-size: 12px;
-                            }
-                        </style>
-                    </head>
-                    <body>
-                        ${clone.innerHTML}
-                    </body>
-                    </html>
-                `;
-
-                // Create blob with proper MIME type for Word
-                const blob = new Blob([fullHtml], {
-                    type: "application/msword;charset=utf-8"
-                });
-
-                // Create download link
-                const link = document.createElement("a");
-                link.href = URL.createObjectURL(blob);
-                link.download = "Hiteknology_Solutions_Contract.doc";
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-                
-                // Clean up
-                setTimeout(() => {
-                    URL.revokeObjectURL(link.href);
-                }, 100);
-
-            } catch (error) {
-                console.error("Word generation error:", error);
-                alert("There was an error generating the Word document. Please try again.\nError: " + error.message);
-            }
-        }
-
-        /**
-         * Helper function to collect all form data
-         */
-        function collectFormData() {
-            const inputs = document.querySelectorAll('input[type="text"], textarea, input[type="date"]');
-            const data = {};
-            inputs.forEach(input => {
-                if (input.id) {
-                    data[input.id] = input.value;
-                }
-            });
-            return data;
-        }
-
-        /**
-         * Preview function to show what will be exported
-         */
-        function previewExport() {
-            const data = collectFormData();
-            console.log("Form Data:", data);
-            alert("Form data collected. Check console for details.");
-        }
-
-        // Attach event listeners when DOM is ready
-        document.addEventListener("DOMContentLoaded", function() {
-            const pdfBtn = document.getElementById("downloadPDF");
-            const wordBtn = document.getElementById("downloadWord");
-            canvas = document.getElementById("signaturePad");
-            
-            if (pdfBtn) {
-                pdfBtn.addEventListener("click", downloadPDF);
-            }
-            
-            if (wordBtn) {
-                wordBtn.addEventListener("click", downloadWord);
-            }
-
-            // Optional: Add keyboard shortcuts
-            document.addEventListener("keydown", function(e) {
-                // Ctrl+Shift+P for PDF
-                if (e.ctrlKey && e.shiftKey && e.key === 'P') {
-                    e.preventDefault();
-                    if (pdfBtn) pdfBtn.click();
-                }
-                // Ctrl+Shift+W for Word
-                if (e.ctrlKey && e.shiftKey && e.key === 'W') {
-                    e.preventDefault();
-                    if (wordBtn) wordBtn.click();
-                }
-            });
-
-            canvas.width = canvas.offsetWidth;
-            canvas.height = canvas.offsetHeight;
-
-            signaturePad = new SignaturePad(canvas);
-
-            document
-              .getElementById("clearSignature")
-              .addEventListener("click", () => {
-
-                  signaturePad.clear();
-
-              });
-
-            const participantName = document.getElementById("participantName");
-            const declarationName = document.getElementById("declarationName");
-
-            participantName.addEventListener("input", function () {
-                declarationName.value = participantName.value;
-            });
-
-            console.log("✅ Document ready!");
-            console.log("📄 Press Ctrl+Shift+P to download PDF");
-            console.log("📄 Press Ctrl+Shift+W to download Word");
-        });
-
-        // Handle errors globally
-        window.addEventListener('error', function(e) {
-            console.error("Global error:", e.message);
-        });
-
-        //Handle resizing: resizing the browser doesn't erase the signature
-        window.addEventListener("resize", () => {
-
-          const data = signaturePad.toData();
-
-          canvas.width = canvas.offsetWidth;
-          canvas.height = canvas.offsetHeight;
-
-          signaturePad.fromData(data);
-
-      });
-
-        // Export functions for debugging
-        window.downloadPDF = downloadPDF;
-        window.downloadWord = downloadWord;
-        window.collectFormData = collectFormData;
-    </script>
   </body>
 </html>
