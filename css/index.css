@@ -14,30 +14,18 @@ body {
 }
 
 .document {
-  /*width: 110vh;
-  margin: 40px auto;*/
-  width:210mm;
-  margin:40px auto;
+  width: 210mm;
+  margin: 40px auto;
 }
-
-/*.page {
-  width: 100%;
-  min-height: 150vh;
-  margin-bottom: 40px;
-  background: #ffffff;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
-  display: flex;
-  flex-direction: column;
-}*/
 
 .page {
   width: 210mm;
-    min-height: 297mm;
-    margin: 0 auto 20px;
-    background: white;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
-    display: flex;
-    flex-direction: column;
+  min-height: 297mm;
+  margin: 0 auto 20px;
+  background: white;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
 }
 
 .page:last-child {
@@ -112,6 +100,36 @@ header::before {
   color: #fff;
   font-size: 12px;
   margin: 7px 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.company-details li .icon {
+  width: 18px;
+  height: 18px;
+  display: inline-block;
+  flex-shrink: 0;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+/* Social Icons using SVG data URIs */
+.company-details li .icon-twitter {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z'/%3E%3C/svg%3E");
+}
+
+.company-details li .icon-facebook {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z'/%3E%3C/svg%3E");
+}
+
+.company-details li .icon-email {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M1.5 8.67v8.58a3 3 0 003 3h15a3 3 0 003-3V8.67l-8.928 5.493a3 3 0 01-3.144 0L1.5 8.67z'/%3E%3Cpath d='M22.5 6.908V6.75a3 3 0 00-3-3h-15a3 3 0 00-3 3v.158l9.714 5.978a1.5 1.5 0 001.572 0L22.5 6.908z'/%3E%3C/svg%3E");
+}
+
+.company-details li .icon-whatsapp {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z'/%3E%3C/svg%3E");
 }
 
 section {
@@ -163,34 +181,18 @@ section p {
   line-height: 1.8;
 }
 
-/*input[type="text"],
-input[type="date"] {
-  border: none;
-  border-bottom: 1px solid #555;
-  background: transparent;
-  padding: 2px 4px;
-  font-size: 13px;
-  outline: none;
-  text-align: center;
-}*/
-
 input[type="text"],
 input[type="date"] {
   border: none;
   border-bottom: 1px solid #555;
   background: transparent;
-
   height: 22px;
   line-height: 22px;
-
   padding: 0 4px;
-
   font-size: 13px;
-
+  font-family: "Poppins", sans-serif;
   vertical-align: middle;
-
   outline: none;
-
   text-align: center;
 }
 
@@ -225,18 +227,6 @@ input[type="date"]:focus {
 }
 
 #declarationId {
-  width: 150px;
-}
-
-#signedAt {
-  width: 160px;
-}
-
-#signedMonth {
-  width: 120px;
-}
-
-#signedDate {
   width: 150px;
 }
 
@@ -350,6 +340,7 @@ footer {
   color: #fff;
   cursor: pointer;
   font-size: 15px;
+  font-family: "Poppins", sans-serif;
   transition: 0.3s;
 }
 
@@ -371,123 +362,146 @@ footer {
   transform: translateY(-2px);
 }
 
-.pdf-preview{
-    display:none;
-    white-space:pre-wrap;
-    word-wrap:break-word;
-    border:1px solid #cfcfcf;
-    padding:15px;
-    min-height:260px;
-    font-size:13px;
-    line-height:1.8;
+.pdf-preview {
+  display: none;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  border: 1px solid #cfcfcf;
+  padding: 15px;
+  min-height: 260px;
+  font-size: 13px;
+  line-height: 1.8;
+  font-family: "Poppins", sans-serif;
 }
 
-.company-signature{
-
-    width:180px;
-
-    height:auto;
-
-    display:block;
-
-    margin-top:10px;
-
+.company-signature {
+  width: 180px;
+  height: auto;
+  display: block;
+  margin-top: 10px;
 }
 
-#signaturePad{
-
-    width:100%;
-
-    height:180px;
-
-    border:1px solid #999;
-
-    background:white;
-
-    border-radius:6px;
-
-    cursor:crosshair;
-
+/* Signature area - blank space for physical signature */
+.signature-area {
+  width: 100%;
+  height: 120px;
+  border: 2px dashed #999;
+  border-radius: 6px;
+  background: #fafafa;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #aaa;
+  font-size: 13px;
+  font-family: "Poppins", sans-serif;
+  margin-top: 5px;
 }
 
-.signature-buttons{
-
-    margin-top:10px;
-
+.signature-area span {
+  opacity: 0.6;
 }
 
-#clearSignature{
-
-    padding:8px 18px;
-
-    border:none;
-
-    background:#088e92;
-
-    color:white;
-
-    border-radius:4px;
-
-    cursor:pointer;
-
+.signature-buttons {
+  margin-top: 10px;
 }
 
-#clearSignature:hover{
-
-    background:#055b5d;
-
+.editor-only {
+  margin-bottom: 15px;
 }
 
-/* ===== Career Modal ===== */
-
-.modal{
-
-    display:none;
-
-    position:fixed;
-
-    top:0;
-    left:0;
-
-    width:100%;
-    height:100%;
-
-    background:rgba(0,0,0,.45);
-
-    justify-content:center;
-    align-items:center;
-
-    z-index:9999;
-
+.editor-only select,
+.editor-only button {
+  font-family: "Poppins", sans-serif;
 }
 
-.modal-content{
+#careerCategory {
+  padding: 6px 12px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  font-family: "Poppins", sans-serif;
+}
 
-    background:white;
+#addCareerBtn {
+  padding: 6px 16px;
+  background: #b70089;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-family: "Poppins", sans-serif;
+}
 
-    padding:20px;
+/* Blank line placeholders for manual signing */
+.blank-line {
+  display: inline-block;
+  border-bottom: 2px solid #555;
+  height: 22px;
+  min-width: 60px;
+  margin: 0 4px;
+  background: transparent;
+}
 
-    width:450px;
+/* Signed at section styling */
+.field-group p {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-wrap: wrap;
+}
 
-    border-radius:8px;
+.field-group p span {
+  font-size: 13px;
+}
 
-    box-shadow:0 5px 20px rgba(0,0,0,.25);
+/* Career Modal */
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.45);
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
 
+.modal-content {
+  background: white;
+  padding: 20px;
+  width: 450px;
+  border-radius: 8px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.25);
+  font-family: "Poppins", sans-serif;
 }
 
 .modal-content input,
-.modal-content textarea{
-
-    width:100%;
-
-    margin-top:5px;
-
+.modal-content textarea {
+  width: 100%;
+  margin-top: 5px;
+  font-family: "Poppins", sans-serif;
 }
 
-/*
-        RESPONSIVE
-*/
+.modal-content button {
+  padding: 8px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-family: "Poppins", sans-serif;
+}
 
+#saveCareerBtn {
+  background: #088e92;
+  color: white;
+}
+
+#cancelCareerBtn {
+  background: #999;
+  color: white;
+}
+
+/* Responsive */
 @media (max-width: 900px) {
   .document,
   .download-section {
@@ -530,14 +544,18 @@ footer {
   .download-section button {
     width: 250px;
   }
+
+  .field-group p {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .blank-line {
+    min-width: 100px;
+  }
 }
 
-/*=============================
-        PRINT / EXPORT
-        (splits the single page
-        into 3 printed pages)
-=============================*/
-
+/* Print */
 @media print {
   body {
     background: #fff;
@@ -564,5 +582,13 @@ footer {
 
   .download-section {
     display: none;
+  }
+
+  .editor-only {
+    display: none !important;
+  }
+
+  .signature-area {
+    border: 2px solid #999;
   }
 }

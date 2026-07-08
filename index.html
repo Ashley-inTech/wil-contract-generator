@@ -7,9 +7,6 @@
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <!--<script src="https://cdn.jsdelivr.net/npm/signature_pad@4.1.7/dist/signature_pad.umd.min.js"></script>-->
-
-     <!-- docx.js library for DOCX generation -->
     <script src="https://cdn.jsdelivr.net/npm/docx@8.0.0/build/index.min.js"></script>
 
     <link rel="stylesheet" href="css/index.css" />
@@ -28,10 +25,10 @@
             </div>
             <div class="company-details">
               <ul>
-                <li><img src="" alt="twiter" /> @hiteknologysol1</li>
-                <li><img src="" alt="facebook" /> @hiteknologysolutios</li>
-                <li><img src="" alt="email" /> info@hiteknologysolutions.co.za</li>
-                <li><img src="" alt="whatsapp" /> +27 (0)73 797 4505</li>
+                <li><span class="icon icon-twitter"></span> @hiteknologysol1</li>
+                <li><span class="icon icon-facebook"></span> @hiteknologysolutios</li>
+                <li><span class="icon icon-email"></span> info@hiteknologysolutions.co.za</li>
+                <li><span class="icon icon-whatsapp"></span> +27 (0)73 797 4505</li>
               </ul>
             </div>
           </div>
@@ -83,10 +80,10 @@
             </div>
             <div class="company-details">
               <ul>
-                <li><img src="" alt="twiter" /> @hiteknologysol1</li>
-                <li><img src="" alt="facebook" /> @hiteknologysolutios</li>
-                <li><img src="" alt="email" /> info@hiteknologysolutions.co.za</li>
-                <li><img src="" alt="whatsapp" /> +27 (0)73 797 4505</li>
+                <li><span class="icon icon-twitter"></span> @hiteknologysol1</li>
+                <li><span class="icon icon-facebook"></span> @hiteknologysolutios</li>
+                <li><span class="icon icon-email"></span> info@hiteknologysolutions.co.za</li>
+                <li><span class="icon icon-whatsapp"></span> +27 (0)73 797 4505</li>
               </ul>
             </div>
           </div>
@@ -98,38 +95,22 @@
 
             <div class="editor-only">
               <label>Career Category</label>
-
-              <select id="careerCategory" >
+              <select id="careerCategory">
                   <option value="">-- Select Career --</option>
               </select>
-
-              <button type="button" id="addCareerBtn">
-                  Add Career
-              </button>
-
+              <button type="button" id="addCareerBtn">Add Career</button>
             </div>
 
             <p>
               3.1 The Participant's role will focus on
-
-              <input
-                  type="text"
-                  id="role"
-                  placeholder="Role"/>
+              <input type="text" id="role" placeholder="Role"/>
             </p>
 
             <p>3.2 Responsibilities include but are not limited to:</p>
 
-            <textarea
-                id="responsibilities"
-                rows="12">
-            </textarea>
+            <textarea id="responsibilities" rows="12"></textarea>
 
-            <div
-                id="responsibilitiesPreview"
-                class="pdf-preview">
-            </div>
-
+            <div id="responsibilitiesPreview" class="pdf-preview"></div>
           </section>
 
           <section>
@@ -165,10 +146,10 @@
             </div>
             <div class="company-details">
               <ul>
-                <li><img src="" alt="twiter" /> @hiteknologysol1</li>
-                <li><img src="" alt="facebook" /> @hiteknologysolutios</li>
-                <li><img src="" alt="email" /> info@hiteknologysolutions.co.za</li>
-                <li><img src="" alt="whatsapp" /> +27 (0)73 797 4505</li>
+                <li><span class="icon icon-twitter"></span> @hiteknologysol1</li>
+                <li><span class="icon icon-facebook"></span> @hiteknologysolutios</li>
+                <li><span class="icon icon-email"></span> info@hiteknologysolutions.co.za</li>
+                <li><span class="icon icon-whatsapp"></span> +27 (0)73 797 4505</li>
               </ul>
             </div>
           </div>
@@ -184,15 +165,8 @@
           <section class="company-section">
             <p>For and on behalf of the Company</p>
             <div class="field-group">
-              <!--<label for="companySignature">Signature</label>
-              <input type="text" id="companySignature" placeholder="" />-->
               <label>Signature</label>
-
-              <img
-                  src="assets/signature.png"
-                  alt="Company Signature"
-                  class="company-signature"
-              >
+              <img src="assets/signature.png" alt="Company Signature" class="company-signature">
             </div>
             <div class="field-group">
               <input type="text" id="companyRepresentative" value="Sebaka Mogano" readonly/>
@@ -210,34 +184,28 @@
               <input type="text" id="declarationId" maxlength="13" placeholder="ID Number" />
               hereby confirm that I understand, accept and agree to be bound by all of the terms and conditions set out herein as well as in any Schedule, Annexure, Policy, Procedure and Recommended Practice related hereto.
             </p>
+
             <div class="field-group">
-
-              <label for="participantSignature">Participant Signature</label>
-
-              <canvas id="signaturePad"></canvas>
-
-              <div class="signature-buttons">
-
-                  <button
-                      type="button"
-                      id="clearSignature"
-                  >
-                      Clear Signature
-                  </button>
-
+              <label>Participant Signature</label>
+              <div class="signature-area">
+                <span>Sign here</span>
               </div>
-
-          </div>
+              <p style="font-size: 11px; color: #888; margin-top: 4px;">Print this document and sign physically</p>
+            </div>
 
             <hr />
             <br />
 
             <div class="field-group">
-              <p>
-                Signed at
-                <input type="text" id="signedAt" placeholder="Location" /> on this
-
-                <span id="formattedDate"></span>.
+              <p style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+                <span>Signed at</span>
+                <span class="blank-line" style="display: inline-block; width: 120px; border-bottom: 2px solid #555; height: 20px;"></span>
+                <span>on this</span>
+                <span class="blank-line" style="display: inline-block; width: 80px; border-bottom: 2px solid #555; height: 20px;"></span>
+                <span>day of</span>
+                <span class="blank-line" style="display: inline-block; width: 100px; border-bottom: 2px solid #555; height: 20px;"></span>
+                <span>2026</span>
+                <span>.</span>
               </p>
             </div>
           </section>
@@ -260,58 +228,28 @@
 
     </div>
 
-    <!-- ================= Career Modal ================= -->
+    <!-- Career Modal -->
     <div id="careerModal" class="modal">
-
-        <div class="modal-content">
-
-            <h3>Add Career Category</h3>
-
-            <label>Career Name</label>
-
-            <input
-                type="text"
-                id="modalCareerName"
-                placeholder="Software Engineer"
-            >
-
-            <br><br>
-
-            <label>Responsibilities</label>
-
-            <textarea
-                id="modalResponsibilities"
-                rows="8"
-                placeholder="Enter responsibilities..."
-            ></textarea>
-
-            <br><br>
-
-            <button id="saveCareerBtn">
-                Save
-            </button>
-
-            <button id="cancelCareerBtn">
-                Cancel
-            </button>
-
-        </div>
-
+      <div class="modal-content">
+        <h3>Add Career Category</h3>
+        <label>Career Name</label>
+        <input type="text" id="modalCareerName" placeholder="Software Engineer">
+        <br><br>
+        <label>Responsibilities</label>
+        <textarea id="modalResponsibilities" rows="8" placeholder="Enter responsibilities..."></textarea>
+        <br><br>
+        <button id="saveCareerBtn">Save</button>
+        <button id="cancelCareerBtn">Cancel</button>
+      </div>
     </div>
 
-    <!-- ======================= ACTION BUTTONS (screen only) ======================= -->
+    <!-- Download Buttons -->
     <section class="download-section">
       <button id="downloadWord" type="button">Download as Word</button>
       <button id="downloadPDF" type="button">Download as PDF</button>
     </section>
 
-    <!-- ============================================================ -->
-    <!-- SCRIPTS -->
-    <!-- ============================================================ -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-
-    <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.2.0/dist/signature_pad.umd.min.js"></script>
-
+    <!-- Scripts -->
     <script src="js/careers.js"></script>
     <script src="js/modal.js"></script>
     <script src="js/app.js"></script>
