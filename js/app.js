@@ -52,17 +52,11 @@ async function downloadPDF() {
                 backgroundColor: "#ffffff",
                 logging: false,
                 onclone: function(clonedDoc) {
-                    // Add Poppins font
+                    // Add Poppins font to cloned document
                     const fontLink = clonedDoc.createElement('link');
                     fontLink.href = 'https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap';
                     fontLink.rel = 'stylesheet';
                     clonedDoc.head.appendChild(fontLink);
-                    
-                    // Add Font Awesome for icons
-                    const faLink = clonedDoc.createElement('link');
-                    faLink.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css';
-                    faLink.rel = 'stylesheet';
-                    clonedDoc.head.appendChild(faLink);
                 }
             });
 
@@ -132,17 +126,11 @@ async function downloadWord() {
                 backgroundColor: "#ffffff",
                 logging: false,
                 onclone: function(clonedDoc) {
-                    // Add Poppins font
+                    // Add Poppins font to cloned document
                     const fontLink = clonedDoc.createElement('link');
                     fontLink.href = 'https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap';
                     fontLink.rel = 'stylesheet';
                     clonedDoc.head.appendChild(fontLink);
-                    
-                    // Add Font Awesome for icons
-                    const faLink = clonedDoc.createElement('link');
-                    faLink.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css';
-                    faLink.rel = 'stylesheet';
-                    clonedDoc.head.appendChild(faLink);
                 }
             });
             

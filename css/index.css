@@ -105,21 +105,14 @@ header::before {
   gap: 8px;
 }
 
-/* Font Awesome Icons Styling */
-.company-details li i {
-  width: 18px;
-  font-size: 15px;
-  color: #ffffff;
+/* SVG Icon Styling */
+.company-details li .icon-svg {
+  width: 16px;
+  height: 16px;
   display: inline-block;
   flex-shrink: 0;
-  text-align: center;
+  fill: #ffffff;
 }
-
-/* Icon brand colors */
-.company-details li .fa-twitter { color: #1DA1F2; }
-.company-details li .fa-facebook { color: #1877F2; }
-.company-details li .fa-envelope { color: #EA4335; }
-.company-details li .fa-whatsapp { color: #25D366; }
 
 section {
   position: relative;
