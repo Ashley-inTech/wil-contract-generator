@@ -1,5 +1,3 @@
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
-
 * {
   margin: 0;
   padding: 0;
@@ -9,15 +7,15 @@
 body {
   font-family: "Poppins", sans-serif;
   background: #d9d9d9;
-  color: #222;
+  color: #000000;
   line-height: 1.6;
 }
 
 .document {
   /*width: 110vh;
   margin: 40px auto;*/
-  width:210mm;
-  margin:40px auto;
+  width: 210mm;
+  margin: 40px auto;
 }
 
 /*.page {
@@ -32,12 +30,12 @@ body {
 
 .page {
   width: 210mm;
-    min-height: 297mm;
-    margin: 0 auto 20px;
-    background: white;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
-    display: flex;
-    flex-direction: column;
+  min-height: 297mm;
+  margin: 0 auto 20px;
+  background: white;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
 }
 
 .page:last-child {
@@ -58,6 +56,13 @@ header::before {
   display: block;
   height: 38px;
   background: linear-gradient(90deg, #b70089, #96166f);
+}
+
+header img {
+  width: 15px;
+  height: 15px;
+  background-color: #fff;
+  padding: 0.1px;
 }
 
 .company-info {
@@ -371,117 +376,101 @@ footer {
   transform: translateY(-2px);
 }
 
-.pdf-preview{
-    display:none;
-    white-space:pre-wrap;
-    word-wrap:break-word;
-    border:1px solid #cfcfcf;
-    padding:15px;
-    min-height:260px;
-    font-size:13px;
-    line-height:1.8;
+.pdf-preview {
+  display: none;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  border: 1px solid #cfcfcf;
+  padding: 15px;
+  min-height: 260px;
+  font-size: 13px;
+  line-height: 1.8;
 }
 
-.company-signature{
+.company-signature {
+  width: 180px;
 
-    width:180px;
+  height: auto;
 
-    height:auto;
+  display: block;
 
-    display:block;
-
-    margin-top:10px;
-
+  margin-top: 10px;
 }
 
-#signaturePad{
+#signaturePad {
+  width: 100%;
 
-    width:100%;
+  height: 180px;
 
-    height:180px;
+  border: 1px solid #999;
 
-    border:1px solid #999;
+  background: white;
 
-    background:white;
+  border-radius: 6px;
 
-    border-radius:6px;
-
-    cursor:crosshair;
-
+  cursor: crosshair;
 }
 
-.signature-buttons{
-
-    margin-top:10px;
-
+.signature-buttons {
+  margin-top: 10px;
 }
 
-#clearSignature{
+#clearSignature {
+  padding: 8px 18px;
 
-    padding:8px 18px;
+  border: none;
 
-    border:none;
+  background: #088e92;
 
-    background:#088e92;
+  color: white;
 
-    color:white;
+  border-radius: 4px;
 
-    border-radius:4px;
-
-    cursor:pointer;
-
+  cursor: pointer;
 }
 
-#clearSignature:hover{
-
-    background:#055b5d;
-
+#clearSignature:hover {
+  background: #055b5d;
 }
 
 /* ===== Career Modal ===== */
 
-.modal{
+.modal {
+  display: none;
 
-    display:none;
+  position: fixed;
 
-    position:fixed;
+  top: 0;
+  left: 0;
 
-    top:0;
-    left:0;
+  width: 100%;
+  height: 100%;
 
-    width:100%;
-    height:100%;
+  background: rgba(0, 0, 0, 0.45);
 
-    background:rgba(0,0,0,.45);
+  justify-content: center;
+  align-items: center;
 
-    justify-content:center;
-    align-items:center;
-
-    z-index:9999;
-
+  z-index: 9999;
 }
 
-.modal-content{
+.modal-content {
+  background: white;
 
-    background:white;
+  padding: 20px;
 
-    padding:20px;
+  width: 450px;
 
-    width:450px;
+  border-radius: 8px;
 
-    border-radius:8px;
-
-    box-shadow:0 5px 20px rgba(0,0,0,.25);
-
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.25);
 }
 
 .modal-content input,
-.modal-content textarea{
+.modal-content textarea {
+  width: 100%;
 
-    width:100%;
-
-    margin-top:5px;
-
+  margin-top: 5px;
 }
 
 /*
