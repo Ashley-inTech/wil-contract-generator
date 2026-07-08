@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Work Integrated Learning Agreement</title>
     
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/docx@8.0.0/build/index.min.js"></script>
@@ -25,10 +28,10 @@
             </div>
             <div class="company-details">
               <ul>
-                <li><span class="icon icon-twitter"></span> @hiteknologysol1</li>
-                <li><span class="icon icon-facebook"></span> @hiteknologysolutios</li>
-                <li><span class="icon icon-email"></span> info@hiteknologysolutions.co.za</li>
-                <li><span class="icon icon-whatsapp"></span> +27 (0)73 797 4505</li>
+                <li><i class="fab fa-twitter"></i> @hiteknologysol1</li>
+                <li><i class="fab fa-facebook"></i> @hiteknologysolutios</li>
+                <li><i class="fas fa-envelope"></i> info@hiteknologysolutions.co.za</li>
+                <li><i class="fab fa-whatsapp"></i> +27 (0)73 797 4505</li>
               </ul>
             </div>
           </div>
@@ -80,10 +83,10 @@
             </div>
             <div class="company-details">
               <ul>
-                <li><span class="icon icon-twitter"></span> @hiteknologysol1</li>
-                <li><span class="icon icon-facebook"></span> @hiteknologysolutios</li>
-                <li><span class="icon icon-email"></span> info@hiteknologysolutions.co.za</li>
-                <li><span class="icon icon-whatsapp"></span> +27 (0)73 797 4505</li>
+                <li><i class="fab fa-twitter"></i> @hiteknologysol1</li>
+                <li><i class="fab fa-facebook"></i> @hiteknologysolutios</li>
+                <li><i class="fas fa-envelope"></i> info@hiteknologysolutions.co.za</li>
+                <li><i class="fab fa-whatsapp"></i> +27 (0)73 797 4505</li>
               </ul>
             </div>
           </div>
@@ -148,10 +151,10 @@
             </div>
             <div class="company-details">
               <ul>
-                <li><span class="icon icon-twitter"></span> @hiteknologysol1</li>
-                <li><span class="icon icon-facebook"></span> @hiteknologysolutios</li>
-                <li><span class="icon icon-email"></span> info@hiteknologysolutions.co.za</li>
-                <li><span class="icon icon-whatsapp"></span> +27 (0)73 797 4505</li>
+                <li><i class="fab fa-twitter"></i> @hiteknologysol1</li>
+                <li><i class="fab fa-facebook"></i> @hiteknologysolutios</li>
+                <li><i class="fas fa-envelope"></i> info@hiteknologysolutions.co.za</li>
+                <li><i class="fab fa-whatsapp"></i> +27 (0)73 797 4505</li>
               </ul>
             </div>
           </div>
@@ -181,7 +184,7 @@
             <p>Participant Declaration</p>
             <p>
               I,
-              <input type="text" id="declarationName" placeholder="Participant Name" />
+              <input type="text" id="declarationName" placeholder="Participant Name" readonly />
               with ID number
               <input type="text" id="declarationId" maxlength="13" placeholder="ID Number" />
               hereby confirm that I understand, accept and agree to be bound by all of the terms and conditions set out herein as well as in any Schedule, Annexure, Policy, Procedure and Recommended Practice related hereto.
@@ -240,8 +243,10 @@
         <label>Responsibilities</label>
         <textarea id="modalResponsibilities" rows="8" placeholder="Enter responsibilities..."></textarea>
         <br><br>
-        <button id="saveCareerBtn">Save</button>
-        <button id="cancelCareerBtn">Cancel</button>
+        <div class="modal-buttons">
+          <button id="saveCareerBtn">Save</button>
+          <button id="cancelCareerBtn">Cancel</button>
+        </div>
       </div>
     </div>
 
@@ -251,7 +256,7 @@
       <button id="downloadPDF" type="button">Download as PDF</button>
     </section>
 
-    <!-- Scripts - careers.js must load first -->
+    <!-- Scripts -->
     <script src="js/careers.js"></script>
     <script src="js/modal.js"></script>
     <script src="js/app.js"></script>

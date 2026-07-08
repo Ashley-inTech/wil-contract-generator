@@ -52,10 +52,17 @@ async function downloadPDF() {
                 backgroundColor: "#ffffff",
                 logging: false,
                 onclone: function(clonedDoc) {
+                    // Add Poppins font
                     const fontLink = clonedDoc.createElement('link');
                     fontLink.href = 'https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap';
                     fontLink.rel = 'stylesheet';
                     clonedDoc.head.appendChild(fontLink);
+                    
+                    // Add Font Awesome for icons
+                    const faLink = clonedDoc.createElement('link');
+                    faLink.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css';
+                    faLink.rel = 'stylesheet';
+                    clonedDoc.head.appendChild(faLink);
                 }
             });
 
@@ -125,10 +132,17 @@ async function downloadWord() {
                 backgroundColor: "#ffffff",
                 logging: false,
                 onclone: function(clonedDoc) {
+                    // Add Poppins font
                     const fontLink = clonedDoc.createElement('link');
                     fontLink.href = 'https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap';
                     fontLink.rel = 'stylesheet';
                     clonedDoc.head.appendChild(fontLink);
+                    
+                    // Add Font Awesome for icons
+                    const faLink = clonedDoc.createElement('link');
+                    faLink.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css';
+                    faLink.rel = 'stylesheet';
+                    clonedDoc.head.appendChild(faLink);
                 }
             });
             
@@ -213,14 +227,11 @@ function updateRoleFromCareer() {
     const selectedCareer = careerDropdown.value;
     
     if (selectedCareer && careers[selectedCareer]) {
-        // Set the value to the career name
         roleInput.value = selectedCareer;
-        // Update placeholder to show the career
         roleInput.placeholder = selectedCareer;
     } else {
-        // If no career selected, clear and show default placeholder
         roleInput.value = "";
-        roleInput.placeholder = "Role";
+        roleInput.placeholder = "Select a career above";
     }
 }
 
@@ -259,9 +270,7 @@ document.addEventListener("DOMContentLoaded", function() {
     // Select first career automatically if available
     if (careerDropdown.options.length > 1) {
         careerDropdown.selectedIndex = 1;
-        // Update the role field
         updateRoleFromCareer();
-        // Update responsibilities
         const selected = careers[careerDropdown.value];
         if (selected) {
             document.getElementById("responsibilities").value = selected.responsibilities || "";
@@ -272,10 +281,8 @@ document.addEventListener("DOMContentLoaded", function() {
     careerDropdown.addEventListener("change", function() {
         const selected = careers[this.value];
         
-        // Update the role field
         updateRoleFromCareer();
         
-        // Update responsibilities
         if (selected) {
             document.getElementById("responsibilities").value = selected.responsibilities || "";
         } else {
@@ -300,26 +307,20 @@ document.addEventListener("DOMContentLoaded", function() {
                 return;
             }
 
-            // Add to careers object
             careers[careerName] = {
                 role: careerName,
                 responsibilities: responsibilities
             };
 
-            // Add to dropdown
             const option = document.createElement("option");
             option.value = careerName;
             option.textContent = careerName;
             careerDropdown.appendChild(option);
             careerDropdown.value = careerName;
             
-            // Update the role field
             updateRoleFromCareer();
-            
-            // Update responsibilities
             document.getElementById("responsibilities").value = responsibilities;
 
-            // Clear modal fields
             document.getElementById("modalCareerName").value = "";
             document.getElementById("modalResponsibilities").value = "";
             closeCareerModal();
@@ -357,7 +358,7 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     });
 
-    // Sync participant name with declaration name
+    // Sync participant name from top to bottom
     const participantName = document.getElementById("participantName");
     const declarationName = document.getElementById("declarationName");
 
@@ -365,18 +366,23 @@ document.addEventListener("DOMContentLoaded", function() {
         participantName.addEventListener("input", function() {
             declarationName.value = this.value;
         });
+        
+        participantName.addEventListener("blur", function() {
+            declarationName.value = this.value;
+        });
+        
+        if (participantName.value) {
+            declarationName.value = participantName.value;
+        }
     }
 
-    // Allow manual editing of role field - it will update but keep the career reference
+    // Allow manual editing of role field
     if (roleInput) {
         roleInput.addEventListener("focus", function() {
-            // Store the current value
             this.dataset.previousValue = this.value;
         });
         
         roleInput.addEventListener("change", function() {
-            // If user changes the role manually, it won't affect the career dropdown
-            // But we don't want to auto-update the dropdown
             console.log("Role manually changed to:", this.value);
         });
     }
