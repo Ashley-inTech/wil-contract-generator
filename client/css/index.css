@@ -11,19 +11,23 @@ body {
   background: #d9d9d9;
   color: #000000;
   line-height: 1.6;
+  padding-top: 70px;
 }
 
 .top-nav {
-  max-width: 210mm;
-  margin: 24px auto 0;
+  max-width: 100%;
   padding: 14px 24px;
-  background: #282627;
+  background: #96166f;
   color: #ffffff;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-radius: 10px;
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
 }
 
 .nav-brand {
