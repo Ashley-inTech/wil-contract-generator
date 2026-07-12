@@ -3,10 +3,17 @@ import db from '../config/db.js';
 class CareerCategoryModel {
     // Get all career categories
     static async getAll() {
-        const [rows] = await db.query(
-            'SELECT * FROM career_categories ORDER BY career_name'
-        );
-        return rows;
+        try {
+            console.log('🔍 Attempting to fetch careers from database...');
+            const [rows] = await db.query(
+                'SELECT * FROM career_categories ORDER BY career_name'
+            );
+            console.log(`✅ Found ${rows.length} careers`);
+            return rows;
+        } catch (error) {
+            console.error('❌ Database error in CareerCategory.getAll():', error);
+            throw error;
+        }
     }
 
     // Get a single career category by ID

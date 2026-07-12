@@ -14,6 +14,7 @@ app.use(express.json());
 app.set('json spaces', 2); 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.static("client"));
 
 const DB_HOST = process.env.DB_HOST;
 const DB_USER = process.env.DB_USER;

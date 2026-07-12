@@ -202,6 +202,16 @@ class WilLetterController {
         }
     }
 
+    //download pdf contract
+    static async downloadContractPDF(req, res) {
+
+    }
+
+    //download docx contract
+    static async downloadContractDOCX(req, res) {
+        
+    }
+
 }
 
 export default WilLetterController;

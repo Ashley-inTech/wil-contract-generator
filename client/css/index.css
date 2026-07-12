@@ -444,7 +444,25 @@ footer {
   background: #38bfd1;
 }
 
+#saveContractBtn {
+  background: #38bfd1;
+}
+
+#saveWilContract {
+  background: #38bfd1;
+}
+
 #downloadWord:hover {
+  background: #033132;
+  transform: translateY(-2px);
+}
+
+#saveContractBtn:hover {
+  background: #033132;
+  transform: translateY(-2px);
+}
+
+#saveWilContract:hover {
   background: #033132;
   transform: translateY(-2px);
 }

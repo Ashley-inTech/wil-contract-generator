@@ -1,3 +1,5 @@
+//client/js/app.js
+
 function getOrdinal(day) {
     if (day > 3 && day < 21) return day + "th";
     switch (day % 10) {

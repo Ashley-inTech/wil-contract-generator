@@ -1,6 +1,10 @@
 import ContractModel from'../models/ContractModel.js';
 import ParticipantModel from '../models/ParticipantModel.js';
 
+import PDFService from "../services/pdfService.js";
+import DOCXService from "../services/docxService.js";
+import DocumentService from "../services/documentService.js";
+
 class ContractController {
 
     // Get all contracts
@@ -42,7 +46,7 @@ class ContractController {
     static async getContract(req, res) {
         try {
             const { id } = req.params;
-            const contract = await ContractModel.getById(id);
+            const contract = await ContractModel.getById(id); 
             
             if (!contract) {
                 return res.status(404).json({
@@ -89,11 +93,28 @@ class ContractController {
             
             // In a real app, this would generate PDF/DOCX files
             // For now, we'll just store placeholder filenames
+            const pdfFilename =
+                await PDFService.createPDF(
+                    "contract",
+                    participant
+                );
+
+            const docxFilename =
+                await DOCXService.createDOCX(
+                    "contract",
+                    participant
+                );
+
             const contractData = {
+
                 participant_id: participantId,
-                generated_pdf: `contract_${participantId}_${Date.now()}.pdf`,
-                generated_docx: `contract_${participantId}_${Date.now()}.docx`,
-                status: 'Generated'
+
+                generated_pdf: pdfFilename,
+
+                generated_docx: docxFilename,
+
+                status: "Generated"
+
             };
             
             const contractId = await ContractModel.create(contractData);
@@ -105,10 +126,13 @@ class ContractController {
                 data: newContract
             });
         } catch (error) {
+             console.error(error);
+
             res.status(500).json({
                 success: false,
-                message: 'Error generating contract',
-                error: error.message
+                message: "Error generating contract",
+                error: error.message,
+                stack: error.stack
             });
         }
     }
@@ -201,6 +225,101 @@ class ContractController {
                 error: error.message
             });
         }
+    }
+
+    //download pdf contract
+    static async downloadContractPdf(req, res) {
+
+        try {
+
+            const { participantId } = req.params;
+
+            const contract =
+                await ContractModel.getLatest(participantId);
+
+            if (!contract) {
+
+                return res.status(404).json({
+                    success: false,
+                    message: "Contract not found."
+                });
+
+            }
+
+            const filePath =
+                await DocumentService.getFilePath(
+                    "contract",
+                    "pdf",
+                    contract.generated_pdf
+                );
+
+            if (!DocumentService.fileExists(filePath)) {
+
+                return res.status(404).json({
+
+                    success: false,
+
+                    message: "PDF file does not exist."
+
+                });
+
+            }
+
+            return res.download(filePath);
+
+        }
+        catch (err) {
+
+            console.error(err);
+
+            return res.status(500).json({
+
+                success: false,
+
+                message: err.message
+
+            });
+
+        }
+
+    }
+
+    //download docx contract
+    static async downloadContractDOCX(req,res){
+
+        try{
+
+            const { participantId } = req.params;
+
+            const docxBuffer =
+                await ContractService.generateDocx(participantId);
+
+            res.setHeader(
+                "Content-Type",
+                "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+            );
+
+            res.setHeader(
+                "Content-Disposition",
+                `attachment; filename=Contract-${participantId}.docx`
+            );
+
+            res.send(docxBuffer);
+
+        }
+        catch(err){
+
+            console.error(err);
+
+            res.status(500).json({
+
+                success:false,
+                message:"Unable to generate DOCX."
+
+            });
+
+        }
+
     }
 
 }

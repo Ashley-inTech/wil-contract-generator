@@ -6,16 +6,21 @@ class CareerCategoryController {
     // Get all careers
     static async getAllCareers(req, res) {
         try {
+            console.log('📥 getAllCareers called');
             const careers = await CareerCategoryModel.getAll();
+            console.log('📤 Sending response with', careers.length, 'careers');
+            
             res.status(200).json({
                 success: true,
                 data: careers
             });
         } catch (error) {
+            console.error('❌ Error in getAllCareers:', error);
             res.status(500).json({
                 success: false,
                 message: 'Error fetching careers',
-                error: error.message
+                error: error.message,
+                stack: error.stack // Include stack trace for debugging
             });
         }
     }

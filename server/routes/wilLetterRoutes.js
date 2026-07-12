@@ -24,4 +24,10 @@ router.patch('/:id/status', wilLetterController.updateWilLetterStatus);
 // Delete a WIL letter
 router.delete('/:id', wilLetterController.deleteWilLetter);
 
+//Download contract pdf
+router.get('/participant/:participantId/pdf/download', wilLetterController.downloadContractPDF);
+
+//Download contract docx
+router.get('/participant/:participantId/docx/download', wilLetterController.downloadContractDOCX);
+
 export default router;

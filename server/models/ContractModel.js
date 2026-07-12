@@ -17,7 +17,7 @@ class ContractModel {
         const [rows] = await db.query(
             'SELECT * FROM contracts WHERE participant_id = ? ORDER BY generated_date DESC',
             [participantId]
-        );
+        ); 
         return rows;
     }
 

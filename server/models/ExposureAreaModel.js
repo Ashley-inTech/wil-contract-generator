@@ -12,7 +12,7 @@ class ExposureAreaModel {
 
     // Get all exposure areas
     static async getAll() {
-        const [rows] = await db.query(
+        const [rows] = await db.query( 
             'SELECT e.*, c.career_name FROM exposure_areas e JOIN career_categories c ON e.career_id = c.career_id ORDER BY c.career_name, e.exposure_name'
         );
         return rows;
