@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 // client/js/contents.js
 const API_URL = 'http://localhost:3000/api';
 
@@ -62,6 +63,50 @@ document.addEventListener("DOMContentLoaded", function () {
   // Escape HTML to prevent XSS
   function escapeHtml(text) {
     if (!text) return 'N/A';
+=======
+document.addEventListener("DOMContentLoaded", function () {
+  const contentsList = document.getElementById("contentsList");
+
+  function renderContents() {
+    const saved = JSON.parse(
+      localStorage.getItem("generatedContracts") || "[]",
+    );
+    if (!contentsList) return;
+
+    if (!saved.length) {
+      contentsList.innerHTML =
+        '<p class="empty-state">No contracts generated yet. Save a contract from Home to populate this list.</p>';
+      return;
+    }
+
+    contentsList.innerHTML = saved
+      .map(
+        (contract) => `
+          <div class="contents-item">
+            <div class="item-meta">
+              <h3>${contract.participantName}</h3>
+              <p>ID: ${contract.declarationId || "N/A"}</p>
+              <p>Role: ${contract.role || "N/A"}</p>
+              <p>Responsibilities: ${
+                contract.responsibilities || "None specified"
+              }</p>
+              <p>Created: ${new Date(contract.createdAt).toLocaleDateString()}</p>
+            </div>
+            <div class="contents-actions">
+              <button type="button" class="secondary" data-action="view" data-id="${contract.id}">View</button>
+              <button type="button" class="secondary" data-action="download-contract" data-id="${contract.id}">Download Contract</button>
+              <button type="button" class="secondary" data-action="download-wil" data-id="${contract.id}">Download WIL</button>
+              <button type="button" class="secondary" data-action="edit" data-id="${contract.id}">Edit</button>
+              <button type="button" class="danger" data-action="delete" data-id="${contract.id}">Delete</button>
+            </div>
+          </div>
+        `,
+      )
+      .join("");
+  }
+
+  function escapeHtml(text) {
+>>>>>>> 8075b0bcc9b85ce4845332dfc7d075aaf851b744
     return String(text)
       .replace(/&/g, "&amp;")
       .replace(/</g, "&lt;")
@@ -70,7 +115,10 @@ document.addEventListener("DOMContentLoaded", function () {
       .replace(/'/g, "&#039;");
   }
 
+<<<<<<< HEAD
   // Format responsibilities for display
+=======
+>>>>>>> 8075b0bcc9b85ce4845332dfc7d075aaf851b744
   function formatResponsibilities(responsibilities) {
     if (!responsibilities) {
       return "<li>No responsibilities specified</li>";
@@ -90,7 +138,10 @@ document.addEventListener("DOMContentLoaded", function () {
     return items.map((item) => `<li>${escapeHtml(item)}</li>`).join("");
   }
 
+<<<<<<< HEAD
   // Download text file
+=======
+>>>>>>> 8075b0bcc9b85ce4845332dfc7d075aaf851b744
   function downloadTextFile(filename, content) {
     const blob = new Blob([content], { type: "text/plain" });
     const link = document.createElement("a");
@@ -102,6 +153,7 @@ document.addEventListener("DOMContentLoaded", function () {
     URL.revokeObjectURL(link.href);
   }
 
+<<<<<<< HEAD
   // Build contract file content from participant data
   function buildContractFile(participant) {
     return [
@@ -117,12 +169,27 @@ document.addEventListener("DOMContentLoaded", function () {
       "",
       "Responsibilities:",
       ...(participant.responsibilities || '')
+=======
+  function buildContractFile(contract) {
+    return [
+      "HITeK Solutions - Internship Contract",
+      "----------------------------------------",
+      `Participant: ${contract.participantName}`,
+      `ID Number: ${contract.declarationId || "N/A"}`,
+      `Role: ${contract.role || "N/A"}`,
+      `Commencement Date: ${contract.commencementDate || "N/A"}`,
+      `End Date: ${contract.endDate || "N/A"}`,
+      "",
+      "Responsibilities:",
+      ...(contract.responsibilitiesList || contract.responsibilities || "")
+>>>>>>> 8075b0bcc9b85ce4845332dfc7d075aaf851b744
         .toString()
         .split(/\r?\n|\|\||,|;/)
         .map((line) => line.trim())
         .filter(Boolean)
         .map((resp) => `- ${resp}`),
       "",
+<<<<<<< HEAD
       `Created on: ${participant.created_at ? new Date(participant.created_at).toLocaleString() : 'N/A'}`,
     ].join("\n");
   }
@@ -130,6 +197,14 @@ document.addEventListener("DOMContentLoaded", function () {
   // Build WIL letter file content
   function buildWilLetterFile(participant) {
     const responsibilities = participant.wil_letter_responsibilities || participant.responsibilities || '';
+=======
+      `Saved on: ${new Date(contract.createdAt).toLocaleString()}`,
+    ].join("\n");
+  }
+
+  function buildWilLetterFile(contract) {
+    const responsibilities = contract.wilLetter?.responsibilities || "";
+>>>>>>> 8075b0bcc9b85ce4845332dfc7d075aaf851b744
     const list = responsibilities
       .toString()
       .split(/\r?\n|\|\||,|;/)
@@ -139,15 +214,21 @@ document.addEventListener("DOMContentLoaded", function () {
     return [
       "HITeK Solutions - WIL Letter",
       "-----------------------------",
+<<<<<<< HEAD
       `Student Name: ${participant.first_name} ${participant.last_name}`,
       `ID Number: ${participant.id_number || 'N/A'}`,
       `Career: ${participant.career_name || 'N/A'}`,
+=======
+      `Student Name: ${contract.wilLetter?.name || "N/A"}`,
+      `ID Number: ${contract.wilLetter?.id || "N/A"}`,
+>>>>>>> 8075b0bcc9b85ce4845332dfc7d075aaf851b744
       "",
       "Responsibilities:",
       ...(list.length
         ? list.map((item) => `- ${item}`)
         : ["- No responsibilities specified"]),
       "",
+<<<<<<< HEAD
       `Generated on: ${participant.created_at ? new Date(participant.created_at).toLocaleString() : 'N/A'}`,
     ].join("\n");
   }
@@ -205,11 +286,58 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // Close view modal
+=======
+      `Generated from Contract: ${contract.participantName}`,
+      `Generated on: ${new Date(contract.createdAt).toLocaleString()}`,
+    ].join("\n");
+  }
+
+  function openViewModal(contract) {
+    const viewModal = document.getElementById("contractViewModal");
+    const viewContent = document.getElementById("contractViewContent");
+    if (!viewModal || !viewContent) return;
+
+    const responsibilities =
+      contract.wilLetter?.responsibilities || contract.responsibilities || "";
+
+    viewContent.innerHTML = `
+      <div class="view-group">
+        <h4>Contract</h4>
+        <p><strong>Participant:</strong> ${escapeHtml(
+          contract.participantName,
+        )}</p>
+        <p><strong>ID Number:</strong> ${escapeHtml(
+          contract.declarationId || "N/A",
+        )}</p>
+        <p><strong>Role:</strong> ${escapeHtml(contract.role || "N/A")}</p>
+        <p><strong>Commencement:</strong> ${escapeHtml(
+          contract.commencementDate || "N/A",
+        )}</p>
+        <p><strong>End Date:</strong> ${escapeHtml(
+          contract.endDate || "N/A",
+        )}</p>
+        <h4>WIL Letter</h4>
+        <p><strong>Student Name:</strong> ${escapeHtml(
+          contract.wilLetter?.name || "N/A",
+        )}</p>
+        <p><strong>ID Number:</strong> ${escapeHtml(
+          contract.wilLetter?.id || "N/A",
+        )}</p>
+        <p><strong>Responsibilities:</strong></p>
+        <ul>${formatResponsibilities(responsibilities)}</ul>
+      </div>
+    `;
+
+    viewModal.style.display = "flex";
+  }
+
+>>>>>>> 8075b0bcc9b85ce4845332dfc7d075aaf851b744
   function closeViewModal() {
     const viewModal = document.getElementById("contractViewModal");
     if (viewModal) viewModal.style.display = "none";
   }
 
+<<<<<<< HEAD
   // Edit participant
   function editParticipant(participantId) {
     window.location.href = `index.html?edit=${participantId}`;
@@ -242,10 +370,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Handle button actions
   async function handleAction(event) {
+=======
+  function handleAction(event) {
+>>>>>>> 8075b0bcc9b85ce4845332dfc7d075aaf851b744
     const button = event.target.closest("button[data-action]");
     if (!button) return;
 
     const action = button.dataset.action;
+<<<<<<< HEAD
     const participantId = button.dataset.id;
     
     if (!participantId) return;
@@ -301,16 +433,57 @@ document.addEventListener("DOMContentLoaded", function () {
         break;
       case "delete":
         await deleteParticipant(participantId, participantName);
+=======
+    const id = button.dataset.id;
+    const saved = JSON.parse(
+      localStorage.getItem("generatedContracts") || "[]",
+    );
+    const contract = saved.find((item) => item.id === id);
+
+    if (!contract) return;
+
+    switch (action) {
+      case "view":
+        openViewModal(contract);
+        break;
+      case "download-contract":
+        downloadTextFile(
+          `Contract_${contract.participantName || "participant"}.txt`,
+          buildContractFile(contract),
+        );
+        break;
+      case "download-wil":
+        downloadTextFile(
+          `WIL_Letter_${contract.participantName || "participant"}.txt`,
+          buildWilLetterFile(contract),
+        );
+        break;
+      case "edit":
+        window.location.href = `index.html?edit=${contract.id}`;
+        break;
+      case "delete":
+        if (confirm(`Delete ${contract.participantName}?`)) {
+          const updated = saved.filter((item) => item.id !== id);
+          localStorage.setItem("generatedContracts", JSON.stringify(updated));
+          renderContents();
+        }
+>>>>>>> 8075b0bcc9b85ce4845332dfc7d075aaf851b744
         break;
     }
   }
 
+<<<<<<< HEAD
   // Event listeners
+=======
+>>>>>>> 8075b0bcc9b85ce4845332dfc7d075aaf851b744
   if (contentsList) {
     contentsList.addEventListener("click", handleAction);
   }
 
+<<<<<<< HEAD
   // Close modal when clicking outside
+=======
+>>>>>>> 8075b0bcc9b85ce4845332dfc7d075aaf851b744
   window.addEventListener("click", function (event) {
     const viewModal = document.getElementById("contractViewModal");
     if (event.target === viewModal) {
@@ -318,6 +491,11 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
+<<<<<<< HEAD
   // Load participants on page load
   loadParticipants();
 });
+=======
+  renderContents();
+});
+>>>>>>> 8075b0bcc9b85ce4845332dfc7d075aaf851b744
