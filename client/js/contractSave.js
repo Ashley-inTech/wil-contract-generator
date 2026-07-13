@@ -163,4 +163,134 @@ async function saveContract() {
 }
 
 
-//add career category 
+//====================================
+// Career Modal
+//====================================
+
+const addCareerBtn =
+    document.getElementById("addCareerBtn");
+
+const saveCareerBtn =
+    document.getElementById("saveCareerBtn");
+
+const cancelCareerBtn =
+    document.getElementById("cancelCareerBtn");
+
+const careerModal =
+    document.getElementById("careerModal");
+
+function openCareerModal() {
+
+    careerModal.style.display = "flex";
+
+}
+
+function closeCareerModal() {
+
+    careerModal.style.display = "none";
+
+}
+
+addCareerBtn.addEventListener("click", openCareerModal);
+
+cancelCareerBtn.addEventListener("click", closeCareerModal);
+
+
+//====================================
+// Save Career
+//====================================
+
+saveCareerBtn.addEventListener("click", saveCareer);
+
+
+async function saveCareer() {
+
+    try {
+
+        const careerName =
+            document.getElementById("modalCareerName")
+            .value
+            .trim();
+
+        const responsibilities =
+            document.getElementById("modalResponsibilities")
+            .value
+            .trim();
+
+        if (!careerName) {
+
+            alert("Career name is required.");
+
+            return;
+
+        }
+
+        const response = await fetch(
+
+            `${API_URL}/careers`,
+
+            {
+
+                method: "POST",
+
+                headers: {
+
+                    "Content-Type": "application/json"
+
+                },
+
+                body: JSON.stringify({
+
+                    career_name: careerName,
+
+                    role: careerName,
+
+                    responsibilities
+
+                })
+
+            }
+
+        );
+
+        const result = await response.json();
+
+        if (!response.ok) {
+
+            throw new Error(
+                result.message ||
+                "Failed to save career."
+            );
+
+        }
+
+        // Reload dropdown
+        await loadCareerCategories();
+
+        // Select new career
+        careerCategory.value =
+            result.data.career_id;
+
+        // Fill role & responsibilities
+        fillCareerDetails();
+
+        // Clear modal
+        document.getElementById("modalCareerName").value = "";
+
+        document.getElementById("modalResponsibilities").value = "";
+
+        closeCareerModal();
+
+        alert("Career added successfully.");
+
+    }
+
+    catch (err) {
+
+        console.error(err);
+
+        alert(err.message);
+
+    }
+
+}

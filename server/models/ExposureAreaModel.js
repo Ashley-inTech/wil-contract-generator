@@ -38,14 +38,22 @@ class ExposureAreaModel {
     }
 
     // Create multiple exposure areas at once
-    static async createMany(careerId, exposureNames) {
-        if (!exposureNames || exposureNames.length === 0) return [];
-        
-        const values = exposureNames.map(name => [careerId, name.trim()]);
+    static async createMany(careerId, exposureNames) { 
+        const cleaned = exposureNames
+            .map(name => name.trim())
+            .filter(name => name.length > 0);
+
+        if (cleaned.length === 0) return [];
+
+        const values = cleaned.map(name => [careerId, name]);
+
         const [result] = await db.query(
-            'INSERT INTO exposure_areas (career_id, exposure_name) VALUES ?',
+            `INSERT INTO exposure_areas
+            (career_id, exposure_name)
+            VALUES ?`,
             [values]
         );
+
         return result.insertId;
     }
 

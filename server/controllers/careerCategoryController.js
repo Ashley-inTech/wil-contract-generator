@@ -54,7 +54,7 @@ class CareerCategoryController {
     // Create a new career
     static async createCareer(req, res) {
         try {
-            const careerData = req.body;
+            const careerData = req.body; 
             const careerId = await CareerCategoryModel.create(careerData);
             const newCareer = await CareerCategoryModel.getById(careerId);
             

@@ -69,8 +69,15 @@ class WilLetterController {
 
     // Generate a new WIL letter
     static async generateWilLetter(req, res) { 
+        console.log("================================");
+        console.log("WIL CONTROLLER REACHED");
+        console.log("Params:", req.params);
+        console.log("Body:", req.body);
+        console.log("================================");
+
         try {
             const { participantId } = req.params;
+            console.log("Participant:", participant);
             
             // Check if participant exists
             const participant = await ParticipantModel.getById(participantId);

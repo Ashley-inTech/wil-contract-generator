@@ -635,6 +635,24 @@ footer {
   display: block;
 }
 
+#saveContractBtn {
+  background: #38bfd1;
+}
+
+#saveContractButton:hover {
+  background: #206b75;
+  transform: translateY(-2px);
+}
+
+#saveWilContract {
+  background: #38bfd1;
+}
+
+#saveWilContract:hover{
+  background: #206b75;
+  transform: translateY(-2px);
+}
+
 .action-section button:hover {
   transform: translateY(-2px);
   background: #8a006c;

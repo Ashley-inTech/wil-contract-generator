@@ -159,7 +159,9 @@ class PDFService {
                 }
             });
         } finally {
+            console.log("Closing browser...");
             await browser.close();
+            console.log("Browser closed.");
         }
 
         return filename;

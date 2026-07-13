@@ -70,6 +70,12 @@ class ContractController {
 
     // Generate a new contract
     static async generateContract(req, res) {
+        console.log("================================");
+        console.log("WIL CONTROLLER REACHED");
+        console.log("Params:", req.params);
+        console.log("Body:", req.body);
+        console.log("================================");
+
         try {
             const { participantId } = req.params;
             
@@ -82,6 +88,11 @@ class ContractController {
                 });
             }
             
+            console.log("1. Participant found");
+
+            console.log("2. Existing contract checked");
+
+            console.log("3. Starting PDF generation");
             // Regenerate if a contract already exists
             const existingContract = await ContractModel.getLatest(participantId);
 
@@ -91,6 +102,9 @@ class ContractController {
                     participant
                 );
 
+            console.log("4. PDF finished:", pdfFilename);
+
+            console.log("5. Starting DOCX generation");
             let docxFilename = null;
 
             try {
@@ -101,6 +115,12 @@ class ContractController {
             } catch (docxError) {
                 console.warn("DOCX generation skipped:", docxError.message);
             }
+
+            console.log("6. DOCX finished:", docxFilename);
+
+            console.log("7. Saving database");
+
+            console.log("8. Sending response");
 
             let contract;
 

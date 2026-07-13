@@ -67,7 +67,7 @@ class ExposureAreaController {
     static async createExposure(req, res) {
         try {
             const exposureData = req.body;
-            const exposureId = await ExposureAreaModel.create(exposureData);
+            const exposureId = await ExposureAreaModel.create(exposureData); 
             const newExposure = await ExposureAreaModel.getById(exposureId);
             
             res.status(201).json({

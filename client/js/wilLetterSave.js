@@ -2,6 +2,7 @@
 
 const API_URL = 'http://localhost:3000/api';
 
+
 const contractData = JSON.parse(
     localStorage.getItem("contractData")
 );
@@ -47,7 +48,10 @@ async function loadContractData() {
     await loadExposureAreas();
 }
 
-loadContractData();
+//loadContractData();
+if (!localStorage.getItem("generateWil")) {
+    loadContractData();
+}
 
 
 //load career category
@@ -217,6 +221,9 @@ async function saveAll() {
             throw new Error(contractResult.message || "Failed to generate contract");
         }
 
+        localStorage.setItem("generateWil", "true");
+        localStorage.setItem("participantId", participant_id);
+
         const wilResponse = await fetch(`${API_URL}/wil-letters/participant/${participant_id}/generate`, {
             method: "POST",
             headers: {
@@ -245,4 +252,320 @@ async function saveAll() {
 
         alert(err.message);
     }
+}
+
+
+
+//add exposure areas & link to the added career category from the list 
+const addExposureToListBtn =
+    document.getElementById("addExposureToListBtn");
+
+const exposureList =
+    document.getElementById("exposureList");
+
+let pendingExposureAreas = [];
+
+//======================================
+// Exposure Area Modal
+//======================================
+
+const exposureModal =
+    document.getElementById("exposureModal");
+
+const addExposureBtn =
+    document.getElementById("addExposureBtn");
+
+const saveExposureBtn =
+    document.getElementById("saveExposureBtn");
+
+const cancelExposureBtn =
+    document.getElementById("cancelExposureBtn");
+
+const modalCareerCategory =
+    document.getElementById("modalCareerCategory");
+
+const modalExposureName =
+    document.getElementById("modalExposureName");
+
+
+//==============================
+// Open Modal
+//==============================
+async function openExposureModal(){
+
+    exposureModal.style.display="flex";
+
+    pendingExposureAreas=[];
+
+    renderExposureList();
+
+    await loadModalCareers();
+
+}
+
+
+//==============================
+// Close Modal
+//==============================
+function closeExposureModal(){
+
+    exposureModal.style.display="none";
+
+    modalExposureName.value="";
+
+    pendingExposureAreas=[];
+
+    renderExposureList();
+
+}
+
+
+//==============================
+// Add Exposure To List
+//==============================
+function addExposureToList() {
+
+    const name =
+        modalExposureName.value.trim();
+
+    if (!name) {
+
+        alert("Enter an exposure area.");
+
+        return;
+
+    }
+
+    const exists = pendingExposureAreas.some(area =>
+        area.exposure_name.toLowerCase() ===
+        name.toLowerCase()
+    );
+
+    if (exists) {
+        alert("Exposure already added.");
+        return;
+    }
+
+    pendingExposureAreas.push({
+
+        exposure_name: name
+
+    });
+
+    modalExposureName.value = "";
+
+    renderExposureList();
+
+}
+
+
+//render exposure list
+function renderExposureList(){
+
+    exposureList.innerHTML="";
+
+    pendingExposureAreas.forEach((area,index)=>{
+
+        const li=document.createElement("li");
+
+        li.innerHTML=`
+
+            <span>${area.exposure_name}</span>
+
+            <button
+                type="button"
+                class="removeExposure"
+                data-index="${index}">
+                Remove
+            </button>
+
+        `;
+
+        exposureList.appendChild(li);
+
+    });
+
+}
+
+//==============================
+// Load careers into modal
+//==============================
+async function loadModalCareers() {
+
+    try {
+
+        const response =
+            await fetch(`${API_URL}/careers`);
+
+        const result =
+            await response.json();
+
+        if (!response.ok) {
+            throw new Error(result.message);
+        }
+
+        modalCareerCategory.innerHTML =
+            `<option value="">-- Select Career --</option>`;
+
+        result.data.forEach(career => {
+
+            const option =
+                document.createElement("option");
+
+            option.value =
+                career.career_id;
+
+            option.textContent =
+                career.career_name;
+
+            modalCareerCategory.appendChild(option);
+
+        });
+
+        // Preselect current career
+        modalCareerCategory.value =
+            careerCategory.value;
+
+    }
+    catch (err) {
+
+        console.error(err);
+
+    }
+
+}
+
+
+//==============================
+// Save Exposure Area
+//==============================
+async function saveExposureArea(){
+
+    const careerId =
+        modalCareerCategory.value;
+
+    if(!careerId){
+
+        alert("Select a career.");
+
+        return;
+
+    }
+
+    if(pendingExposureAreas.length===0){
+
+        alert("Add at least one exposure.");
+
+        return;
+
+    }
+
+    
+
+    try{
+
+        const response =
+            await fetch(
+                `${API_URL}/exposures/bulk`,
+                {
+
+                    method:"POST",
+
+                    headers:{
+                        "Content-Type":"application/json"
+                    },
+
+                    body:JSON.stringify({
+
+                        careerId,
+
+                        exposures:
+                            pendingExposureAreas.map(area => area.exposure_name)
+
+                    })
+
+                }
+            );
+
+        const result =
+            await response.json();
+
+        if(!response.ok){
+
+            throw new Error(result.message);
+
+        }
+
+        alert("Exposure areas saved.");
+
+        if(careerCategory.value==careerId){
+
+            await loadExposureAreas();
+
+        }
+
+        closeExposureModal();
+
+    }
+    catch(err){
+
+        console.error(err);
+
+        alert(err.message);
+
+    }
+
+}
+
+
+function removeExposureArea(e){
+
+    if(!e.target.classList.contains("removeExposure")){
+        return;
+    }
+
+    const index =
+        Number(e.target.dataset.index);
+
+    pendingExposureAreas.splice(index,1);
+
+    renderExposureList();
+
+}
+
+
+//==============================
+// Events
+//==============================
+
+if (addExposureToListBtn) {
+    addExposureToListBtn.addEventListener(
+        "click",
+        addExposureToList
+    );
+}
+
+if (addExposureBtn) {
+    addExposureBtn.addEventListener(
+        "click",
+        openExposureModal
+    );
+}
+
+if (cancelExposureBtn) {
+    cancelExposureBtn.addEventListener(
+        "click",
+        closeExposureModal
+    );
+}
+
+if (saveExposureBtn) {
+    saveExposureBtn.addEventListener(
+        "click",
+        saveExposureArea
+    );
+}
+
+if (exposureList) {
+    exposureList.addEventListener("click", removeExposureArea);
 }

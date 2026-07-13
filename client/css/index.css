@@ -452,6 +452,23 @@ section p {
   background: #8f006b;
 }
 
+#addExposureBtn {
+  padding: 8px 16px;
+  background: #b70089;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-family: "Poppins", sans-serif;
+  font-size: 13px;
+  transition: background 0.3s;
+  white-space: nowrap;
+}
+
+#addExposureBtn:hover {
+  background: #8f006b;
+}
+
 input[type="text"],
 input[type="date"] {
   border: none;
@@ -633,6 +650,24 @@ footer {
   box-shadow: 0 6px 16px rgba(183, 0, 137, 0.24);
   margin: 24px auto 0;
   display: block;
+}
+
+#saveContractBtn {
+  background: #38bfd1;
+}
+
+#saveContractButton:hover {
+  background: #206b75;
+  transform: translateY(-2px);
+}
+
+#saveWilContract {
+  background: #38bfd1;
+}
+
+#saveWilContract:hover{
+  background: #206b75;
+  transform: translateY(-2px);
 }
 
 .action-section button:hover {
@@ -851,6 +886,50 @@ footer {
 
   #cancelCareerBtn:hover {
     background: #777;
+  }
+
+  .exposure-input-row{
+
+    display:flex;
+    gap:10px;
+
+}
+
+.exposure-input-row input{
+
+      flex:1;
+
+  }
+
+  .exposure-list{
+
+      list-style:none;
+      padding:0;
+      margin:0;
+      max-height:250px;
+      overflow:auto;
+
+  }
+
+  .exposure-list li{
+
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+
+      padding:8px;
+      margin-bottom:6px;
+
+      border:1px solid #ddd;
+      border-radius:6px;
+
+  }
+
+  .removeExposure{
+
+      cursor:pointer;
+      color:red;
+      font-weight:bold;
   }
 
   /* Responsive */

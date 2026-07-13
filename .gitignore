@@ -9,6 +9,12 @@ node_modules/
 dist/
 build/
 
+# Uploads folder
+server/uploads/contracts/pdf/
+server/uploads/contracts/docx/
+server/uploads/wil-letters/pdf/
+server/uploads/wil-letters/docx/
+
 # Logs
 npm-debug.log*
 yarn-debug.log*
