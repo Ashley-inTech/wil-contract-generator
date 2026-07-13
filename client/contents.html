@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contents | HITEK Solutions</title>
+    <link rel="stylesheet" href="css/index.css" />
+  </head>
+  <body>
+    <nav class="top-nav" aria-label="Main navigation">
+      <a href="index.html" class="nav-brand">
+        <img src="assets/logo.png" alt="HITEK Solutions logo" />
+        <span>HITEK Solutions</span>
+      </a>
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="wil-letter.html">Wil Letter</a>
+        <a href="contents.html" class="active">Contents</a>
+      </div>
+    </nav>
+
+    <div class="contents-card">
+      <div class="contents-header">
+        <h2>Contents</h2>
+        <p class="contents-description">
+          Generated contracts appear here once saved from the Home page.
+        </p>
+      </div>
+      <div id="contentsList" class="contents-list">
+        <p class="empty-state">
+          No contracts generated yet. Save a contract from Home to populate this
+          list.
+        </p>
+      </div>
+    </div>
+
+    <div id="contractViewModal" class="modal">
+      <div class="modal-content">
+        <h3>Saved Contract Details</h3>
+        <div id="contractViewContent"></div>
+      </div>
+    </div>
+
+    <script src="js/contents.js"></script>
+  </body>
+</html>

@@ -59,8 +59,193 @@ body {
   transition: color 0.2s ease;
 }
 
-.nav-links a:hover {
+.nav-links a:hover,
+.nav-links a.active {
   color: #11a7aa;
+}
+
+.view-panel {
+  display: block;
+}
+
+.wil-letter-card,
+.contents-card {
+  max-width: 900px;
+  margin: 28px auto;
+  background: #ffffff;
+  padding: 32px;
+  border-radius: 10px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+.wil-letter-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.wil-letter-header h2,
+.contents-card h2 {
+  font-size: 24px;
+  color: #282627;
+}
+
+#wilLetterEditor {
+  margin-bottom: 20px;
+  padding: 16px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  background: #fafafa;
+}
+
+#wilLetterEditor label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 600;
+}
+
+#wilLetterEditor input {
+  width: 100%;
+  margin-bottom: 12px;
+  padding: 8px 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+.wil-letter-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.wil-letter-actions button,
+.wil-letter-header button {
+  border: none;
+  border-radius: 6px;
+  padding: 8px 14px;
+  cursor: pointer;
+  font-family: "Poppins", sans-serif;
+}
+
+.wil-letter-header button,
+.wil-letter-actions button:first-child {
+  background: #b70089;
+  color: #fff;
+}
+
+.wil-letter-actions button:last-child {
+  background: #e0e0e0;
+  color: #282627;
+}
+
+.wil-letter-preview {
+  font-size: 15px;
+  line-height: 1.8;
+  color: #222;
+}
+
+.wil-letter-preview p {
+  margin-bottom: 10px;
+}
+
+.wil-letter-title {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 14px !important;
+}
+
+.contents-card {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.contents-header {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.contents-description {
+  color: #555;
+  font-size: 14px;
+  max-width: 720px;
+}
+
+.contents-list {
+  display: grid;
+  gap: 16px;
+}
+
+.contents-item {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  padding: 20px;
+  gap: 16px;
+  background: #fafafa;
+}
+
+.contents-item .item-meta {
+  display: grid;
+  gap: 6px;
+}
+
+.contents-item h3 {
+  margin: 0;
+  font-size: 18px;
+  color: #1f1f1f;
+}
+
+.contents-item p {
+  margin: 0;
+  font-size: 13px;
+  color: #555;
+}
+
+.contents-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.contents-actions button {
+  padding: 8px 14px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+  background: #96166f;
+  color: #fff;
+  transition: background 0.2s ease;
+}
+
+.contents-actions button:hover {
+  background: #b70089;
+}
+
+.contents-actions button.secondary {
+  background: #38bfd1;
+}
+
+.contents-actions button.secondary:hover {
+  background: #206b75;
+}
+
+.contents-actions button.danger {
+  background: #d32f2f;
+}
+
+.contents-actions button.danger:hover {
+  background: #b71c1c;
+}
+
+.empty-state {
+  color: #666;
+  font-size: 14px;
 }
 
 .document {
@@ -76,6 +261,7 @@ body {
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
 }
 
 .page:last-child {
@@ -84,6 +270,11 @@ body {
 
 .page-content {
   flex: 1;
+  padding-top: 32px;
+}
+
+.wil-letter-content {
+  padding: 40px 60px 32px;
 }
 
 header {
@@ -425,7 +616,8 @@ footer {
   width: 110vh;
 }
 
-.download-section button {
+.download-section button,
+.action-section button {
   padding: 12px 28px;
   border: none;
   border-radius: 5px;
@@ -436,291 +628,341 @@ footer {
   transition: 0.3s;
 }
 
-#downloadWord {
-  background: #088e92;
+.action-section button {
+  background: #b70089;
+  box-shadow: 0 6px 16px rgba(183, 0, 137, 0.24);
+  margin: 24px auto 0;
+  display: block;
 }
 
-#downloadPDF {
-  background: #38bfd1;
-}
-
-#downloadWord:hover {
-  background: #033132;
+.action-section button:hover {
   transform: translateY(-2px);
-}
-
-#downloadPDF:hover {
-  background: #206b75;
-  transform: translateY(-2px);
-}
-
-.pdf-preview {
-  display: none;
-  white-space: pre-wrap;
-  word-wrap: break-word;
-  border: 1px solid #cfcfcf;
-  padding: 15px;
-  min-height: 260px;
-  font-size: 13px;
-  line-height: 1.8;
-  font-family: "Poppins", sans-serif;
-}
-
-.company-signature {
-  width: 180px;
-  height: auto;
-  display: block;
-  margin-top: 10px;
-}
-
-/* Signature area - blank space for physical signature */
-.signature-area {
-  width: 100%;
-  height: 120px;
-  border: 2px dashed #999;
-  border-radius: 6px;
-  background: #fafafa;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #aaa;
-  font-size: 13px;
-  font-family: "Poppins", sans-serif;
-  margin-top: 5px;
-}
-
-.signature-area span {
-  opacity: 0.6;
-}
-
-.editor-only {
-  margin-bottom: 15px;
-}
-
-.editor-only label {
-  font-weight: 500;
-  font-size: 13px;
-  display: block;
-  margin-bottom: 4px;
-}
-
-/* Blank line placeholders for manual signing */
-.blank-line {
-  display: inline-block;
-  border-bottom: 2px solid #555;
-  height: 22px;
-  min-width: 60px;
-  margin: 0 4px;
-  background: transparent;
-}
-
-/* Signed at section styling */
-.field-group p {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  flex-wrap: wrap;
-}
-
-.field-group p span {
-  font-size: 13px;
-}
-
-/* Career Modal */
-.modal {
-  display: none;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.45);
-  justify-content: center;
-  align-items: center;
-  z-index: 9999;
-}
-
-.modal-content {
-  background: white;
-  padding: 30px;
-  width: 500px;
-  max-width: 90%;
-  border-radius: 8px;
-  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.25);
-  font-family: "Poppins", sans-serif;
-}
-
-.modal-content h3 {
-  margin-bottom: 20px;
-  color: #b70089;
-}
-
-.modal-content label {
-  display: block;
-  font-weight: 500;
-  font-size: 13px;
-  margin-top: 10px;
-}
-
-.modal-content input,
-.modal-content textarea {
-  width: 100%;
-  margin-top: 5px;
-  padding: 8px 12px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-family: "Poppins", sans-serif;
-  font-size: 13px;
-}
-
-.modal-content input:focus,
-.modal-content textarea:focus {
-  border-color: #11a7aa;
-  outline: none;
-  box-shadow: 0 0 0 2px rgba(17, 167, 170, 0.2);
-}
-
-.modal-content .modal-buttons {
-  display: flex;
-  gap: 10px;
-  margin-top: 20px;
-}
-
-.modal-content button {
-  padding: 10px 24px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-family: "Poppins", sans-serif;
-  font-size: 13px;
-  transition: background 0.3s;
-}
-
-#saveCareerBtn {
-  background: #088e92;
-  color: white;
-}
-
-#saveCareerBtn:hover {
-  background: #066b6e;
-}
-
-#cancelCareerBtn {
-  background: #999;
-  color: white;
-}
-
-#cancelCareerBtn:hover {
-  background: #777;
-}
-
-/* Responsive */
-@media (max-width: 900px) {
-  .document,
-  .download-section {
-    width: 100%;
+  background: #8a006c;
   }
 
-  .page {
-    padding: 35px 0;
+  #downloadWord {
+    background: #088e92;
   }
 
-  .logo {
-    left: 25px;
+  #downloadPDF {
+    background: #38bfd1;
   }
 
-  section {
-    padding: 0 20px;
+  #downloadWord:hover {
+    background: #033132;
+    transform: translateY(-2px);
   }
 
-  #role,
-  #signedAt,
-  #signedMonth,
-  #signedDate,
-  #declarationName,
-  #declarationId,
-  .field-group input {
-    width: 100%;
-    display: block;
-    margin: 8px 0;
+  #downloadPDF:hover {
+    background: #206b75;
+    transform: translateY(-2px);
   }
 
-  textarea {
-    min-height: 220px;
-  }
-
-  .download-section {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .download-section button {
-    width: 250px;
-  }
-
-  .field-group p {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .blank-line {
-    min-width: 100px;
-  }
-
-  .career-select-wrapper {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  #careerCategory {
-    max-width: 100%;
-  }
-
-  .modal-content {
-    width: 95%;
-    padding: 20px;
-  }
-}
-
-/* Print */
-@media print {
-  body {
-    background: #fff;
-  }
-
-  .document {
-    width: 100%;
-    margin: 0;
-  }
-
-  .page {
-    width: 100%;
-    min-height: 100vh;
-    margin-bottom: 0;
-    box-shadow: none;
-    page-break-after: always;
-    break-after: page;
-  }
-
-  .page:last-child {
-    page-break-after: auto;
-    break-after: auto;
-  }
-
-  .download-section {
+  .pdf-preview {
     display: none;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    border: 1px solid #cfcfcf;
+    padding: 15px;
+    min-height: 260px;
+    font-size: 13px;
+    line-height: 1.8;
+    font-family: "Poppins", sans-serif;
+  }
+
+  .company-signature {
+    width: 180px;
+    height: auto;
+    display: block;
+    margin-top: 10px;
+  }
+
+  /* Signature area - blank space for physical signature */
+  .signature-area {
+    width: 100%;
+    height: 120px;
+    border: 2px dashed #999;
+    border-radius: 6px;
+    background: #fafafa;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #aaa;
+    font-size: 13px;
+    font-family: "Poppins", sans-serif;
+    margin-top: 5px;
+  }
+
+  .signature-area span {
+    opacity: 0.6;
   }
 
   .editor-only {
-    display: none !important;
+    margin-bottom: 15px;
   }
 
-  .signature-area {
-    border: 2px solid #999;
+  .editor-only label {
+    font-weight: 500;
+    font-size: 13px;
+    display: block;
+    margin-bottom: 4px;
   }
 
-  #role {
-    color: #000000;
-    font-weight: 400;
+  /* Blank line placeholders for manual signing */
+  .blank-line {
+    display: inline-block;
+    border-bottom: 2px solid #555;
+    height: 22px;
+    min-width: 60px;
+    margin: 0 4px;
+    background: transparent;
   }
-}
+
+  /* Signed at section styling */
+  .field-group p {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    flex-wrap: wrap;
+  }
+
+  .field-group p span {
+    font-size: 13px;
+  }
+
+  /* Career Modal */
+  .modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.45);
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+  }
+
+  .modal-content {
+    background: white;
+    padding: 30px;
+    width: 500px;
+    max-width: 90%;
+    border-radius: 8px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.25);
+    font-family: "Poppins", sans-serif;
+  }
+
+  .modal-content h3 {
+    margin-bottom: 20px;
+    color: #b70089;
+    font-weight: 500;
+    font-size: 13px;
+    margin-bottom: 8px;
+  }
+
+  .modal-field {
+    margin-bottom: 18px;
+  }
+
+  .modal-content input,
+  .modal-content textarea {
+    width: 100%;
+    margin-top: 5px;
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-family: "Poppins", sans-serif;
+    font-size: 13px;
+  }
+
+  .modal-content input:focus,
+  .modal-content textarea:focus {
+    border-color: #11a7aa;
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(17, 167, 170, 0.2);
+  }
+
+  .modal-content .modal-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+  }
+
+  .modal-content button {
+    padding: 10px 24px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: "Poppins", sans-serif;
+    font-size: 13px;
+    transition: background 0.3s;
+  }
+
+  .view-group {
+    display: grid;
+    gap: 12px;
+    color: #333;
+  }
+
+  .view-group h4 {
+    margin: 16px 0 8px;
+    font-size: 16px;
+    color: #b70089;
+  }
+
+  .view-group p {
+    margin: 0;
+    line-height: 1.6;
+  }
+
+  .view-group ul {
+    padding-left: 20px;
+    margin: 0;
+  }
+
+  .view-group li {
+    margin-bottom: 8px;
+  }
+
+  .wil-letter-preview ul {
+    padding-left: 20px;
+    margin: 8px 0 18px;
+  }
+
+  .wil-letter-preview li {
+    margin-bottom: 8px;
+  }
+
+  #saveCareerBtn {
+    background: #088e92;
+    color: white;
+  }
+
+  #saveCareerBtn:hover {
+    background: #066b6e;
+  }
+
+  #cancelCareerBtn {
+    background: #999;
+    color: white;
+  }
+
+  #cancelCareerBtn:hover {
+    background: #777;
+  }
+
+  /* Responsive */
+  @media (max-width: 900px) {
+    .document,
+    .download-section,
+    .wil-letter-card,
+    .contents-card {
+      width: 100%;
+    }
+
+    .page {
+      padding: 35px 0;
+    }
+
+    .logo {
+      left: 25px;
+    }
+
+    section {
+      padding: 0 20px;
+    }
+
+    #role,
+    #signedAt,
+    #signedMonth,
+    #signedDate,
+    #declarationName,
+    #declarationId,
+    .field-group input {
+      width: 100%;
+      display: block;
+      margin: 8px 0;
+    }
+
+    textarea {
+      min-height: 220px;
+    }
+
+    .download-section {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .download-section button {
+      width: 250px;
+    }
+
+    .field-group p {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .blank-line {
+      min-width: 100px;
+    }
+
+    .career-select-wrapper {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    #careerCategory {
+      max-width: 100%;
+    }
+
+    .modal-content {
+      width: 95%;
+      padding: 20px;
+    }
+  }
+
+  /* Print */
+  @media print {
+    body {
+      background: #fff;
+    }
+
+    .document {
+      width: 100%;
+      margin: 0;
+    }
+
+    .page {
+      width: 100%;
+      min-height: 100vh;
+      margin-bottom: 0;
+      box-shadow: none;
+      page-break-after: always;
+      break-after: page;
+    }
+
+    .page:last-child {
+      page-break-after: auto;
+      break-after: auto;
+    }
+
+    .download-section {
+      display: none;
+    }
+
+    .editor-only {
+      display: none !important;
+    }
+
+    .signature-area {
+      border: 2px solid #999;
+    }
+
+    #role {
+      color: #000000;
+      font-weight: 400;
+    }
+  }
+
