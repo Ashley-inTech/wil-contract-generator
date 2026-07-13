@@ -7,9 +7,11 @@ import contractRoutes from'./contractRoutes.js';
 import wilLetterRoutes from'./wilLetterRoutes.js';
 import careerCategoryRoutes from'./careerCategoryRoutes.js';
 import exposureAreaRoutes from './exposureAreaRoutes.js';
+import fileRoutes from './fileRoutes.js';
 
 // Use routes with prefixes
 router.use('/participants', participantRoutes);
+router.use('/files', fileRoutes);
 router.use('/contracts', contractRoutes);
 router.use('/wil-letters', wilLetterRoutes);
 router.use('/careers', careerCategoryRoutes);

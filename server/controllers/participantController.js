@@ -65,6 +65,31 @@ class ParticipantController {
         }
     }
 
+    static async getParticipantByIdNumber(req, res) {
+        try {
+            const { idNumber } = req.params;
+            const participant = await ParticipantModel.getByIdNumber(idNumber);
+
+            if (!participant) {
+                return res.status(404).json({
+                    success: false,
+                    message: 'Participant not found'
+                });
+            }
+
+            res.status(200).json({
+                success: true,
+                data: participant
+            });
+        } catch (error) {
+            res.status(500).json({
+                success: false,
+                message: 'Error fetching participant by ID number',
+                error: error.message
+            });
+        }
+    }
+
     static async createParticipant(req, res) {
         try {
             const participantData = req.body;

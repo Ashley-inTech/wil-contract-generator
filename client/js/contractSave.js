@@ -41,7 +41,43 @@ async function loadCareerCategories() {
     }
 }
 
-loadCareerCategories();
+const editId = new URLSearchParams(window.location.search).get("edit");
+
+loadCareerCategories().then(() => {
+    if (editId) {
+        loadParticipantForEdit(editId);
+    }
+});
+
+async function loadParticipantForEdit(participantId) {
+    try {
+        const response = await fetch(`${API_URL}/participants/${participantId}`);
+        const result = await response.json();
+
+        if (!response.ok) {
+            throw new Error(result.message || "Failed to load participant");
+        }
+
+        const participant = result.data;
+
+        document.getElementById("participantName").value =
+            `${participant.first_name} ${participant.last_name}`;
+        document.getElementById("declarationName").value =
+            `${participant.first_name} ${participant.last_name}`;
+        document.getElementById("declarationId").value = participant.id_number;
+        document.getElementById("commencementDate").value = participant.commencement_date?.slice(0, 10) || "";
+        document.getElementById("endDate").value = participant.termination_date?.slice(0, 10) || "";
+        document.getElementById("role").value = participant.participant_role || "";
+        document.getElementById("responsibilities").value = participant.responsibilities || "";
+
+        if (participant.career_id) {
+            careerCategory.value = participant.career_id;
+        }
+    } catch (err) {
+        console.error(err);
+        alert("Unable to load participant for editing.");
+    }
+}
 
 
 //==============================
@@ -112,6 +148,10 @@ async function saveContract() {
         responsibilities: document.getElementById("responsibilities").value
 
     };
+
+    if (editId) {
+        contractData.participant_id = Number(editId);
+    }
 
     localStorage.setItem(
         "contractData",

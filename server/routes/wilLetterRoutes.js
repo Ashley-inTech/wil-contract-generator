@@ -10,7 +10,7 @@ router.get('/', wilLetterController.getAllWilLetters);
 router.get('/:id', wilLetterController.getWilLetter);
 
 // Generate a new WIL letter for a participant
-router.post('/participant/:participantId/generate', wilLetterController.generateWilLetter);
+router.post('/participant/:participantId/generate', wilLetterController.generateWilLetter); 
 
 // Get WIL letters for a specific participant
 router.get('/participant/:participantId', wilLetterController.getParticipantWilLetters);

@@ -1,5 +1,8 @@
 import WilLetterModel from'../models/WilLetterModel.js';
 import ParticipantModel from '../models/ParticipantModel.js';
+import PDFService from "../services/pdfService.js";
+import DOCXService from "../services/docxService.js";
+import DocumentService from "../services/documentService.js";
 
 class WilLetterController {
 
@@ -65,7 +68,7 @@ class WilLetterController {
     }
 
     // Generate a new WIL letter
-    static async generateWilLetter(req, res) {
+    static async generateWilLetter(req, res) { 
         try {
             const { participantId } = req.params;
             
@@ -78,30 +81,51 @@ class WilLetterController {
                 });
             }
             
-            // Check if WIL letter already exists
-            const hasLetter = await WilLetterModel.hasWilLetter(participantId);
-            if (hasLetter) {
-                return res.status(400).json({
-                    success: false,
-                    message: 'This participant already has a WIL letter. Use update instead.'
+            const existingLetter = await WilLetterModel.getLatest(participantId);
+
+            const pdfFilename = await PDFService.createPDF(
+                "wil-letter",
+                participant
+            );
+
+            let docxFilename = null;
+
+            try {
+                docxFilename = await DOCXService.createDOCX(
+                    "wil-letter",
+                    participant
+                );
+            } catch (docxError) {
+                console.warn("WIL letter DOCX generation skipped:", docxError.message);
+            }
+
+            let letter;
+
+            if (existingLetter) {
+                await WilLetterModel.update(existingLetter.wil_letter_id, {
+                    generated_pdf: pdfFilename,
+                    generated_docx: docxFilename,
+                    status: 'Generated'
                 });
+                letter = await WilLetterModel.getById(existingLetter.wil_letter_id);
+            } else {
+                const letterData = {
+                    participant_id: participantId,
+                    generated_pdf: pdfFilename,
+                    generated_docx: docxFilename,
+                    status: 'Generated'
+                };
+
+                const letterId = await WilLetterModel.create(letterData);
+                letter = await WilLetterModel.getById(letterId);
             }
             
-            // In a real app, this would generate PDF/DOCX files
-            const letterData = {
-                participant_id: participantId,
-                generated_pdf: `wil_letter_${participantId}_${Date.now()}.pdf`,
-                generated_docx: `wil_letter_${participantId}_${Date.now()}.docx`,
-                status: 'Generated'
-            };
-            
-            const letterId = await WilLetterModel.create(letterData);
-            const newLetter = await WilLetterModel.getById(letterId);
-            
-            res.status(201).json({
+            res.status(existingLetter ? 200 : 201).json({
                 success: true,
-                message: 'WIL letter generated successfully',
-                data: newLetter
+                message: existingLetter
+                    ? 'WIL letter regenerated successfully'
+                    : 'WIL letter generated successfully',
+                data: letter
             });
         } catch (error) {
             res.status(500).json({
@@ -202,14 +226,84 @@ class WilLetterController {
         }
     }
 
-    //download pdf contract
     static async downloadContractPDF(req, res) {
+
+        try {
+
+            const { participantId } = req.params;
+
+            const letter = await WilLetterModel.getLatest(participantId);
+
+            if (!letter || !letter.generated_pdf) {
+                return res.status(404).json({
+                    success: false,
+                    message: "WIL letter PDF not found."
+                });
+            }
+
+            const filePath = await DocumentService.getFilePath(
+                "wil-letter",
+                "pdf",
+                letter.generated_pdf
+            );
+
+            if (!DocumentService.fileExists(filePath)) {
+                return res.status(404).json({
+                    success: false,
+                    message: "PDF file does not exist."
+                });
+            }
+
+            return res.download(filePath);
+
+        } catch (err) {
+            console.error(err);
+            return res.status(500).json({
+                success: false,
+                message: err.message
+            });
+        }
 
     }
 
-    //download docx contract
     static async downloadContractDOCX(req, res) {
-        
+
+        try {
+
+            const { participantId } = req.params;
+
+            const letter = await WilLetterModel.getLatest(participantId);
+
+            if (!letter || !letter.generated_docx) {
+                return res.status(404).json({
+                    success: false,
+                    message: "WIL letter DOCX not found."
+                });
+            }
+
+            const filePath = await DocumentService.getFilePath(
+                "wil-letter",
+                "docx",
+                letter.generated_docx
+            );
+
+            if (!DocumentService.fileExists(filePath)) {
+                return res.status(404).json({
+                    success: false,
+                    message: "DOCX file does not exist."
+                });
+            }
+
+            return res.download(filePath);
+
+        } catch (err) {
+            console.error(err);
+            return res.status(500).json({
+                success: false,
+                message: err.message
+            });
+        }
+
     }
 
 }

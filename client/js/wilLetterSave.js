@@ -117,7 +117,73 @@ async function loadExposureAreas() {
 const saveBtn =
     document.getElementById("saveWilContract");
 
+
 saveBtn.addEventListener("click", saveAll);
+
+async function saveOrUpdateParticipant(participantData) {
+    if (participantData.participant_id) {
+        const updateResponse = await fetch(
+            `${API_URL}/participants/${participantData.participant_id}`,
+            {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(participantData)
+            }
+        );
+
+        const updateResult = await updateResponse.json();
+
+        if (!updateResponse.ok) {
+            throw new Error(updateResult.message || "Failed to update participant");
+        }
+
+        return participantData.participant_id;
+    }
+
+    const createResponse = await fetch(`${API_URL}/participants`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(participantData)
+    });
+
+    const createResult = await createResponse.json();
+
+    if (createResponse.ok) {
+        return createResult.data.participant_id;
+    }
+
+    if (createResponse.status === 400 &&
+        createResult.message?.includes("already exists")) {
+
+        const lookupResponse = await fetch(
+            `${API_URL}/participants/by-id-number/${encodeURIComponent(participantData.id_number)}`
+        );
+
+        const lookupResult = await lookupResponse.json();
+
+        if (!lookupResponse.ok) {
+            throw new Error(lookupResult.message || "Failed to find existing participant");
+        }
+
+        const participantId = lookupResult.data.participant_id;
+
+        const updateResponse = await fetch(`${API_URL}/participants/${participantId}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(participantData)
+        });
+
+        const updateResult = await updateResponse.json();
+
+        if (!updateResponse.ok) {
+            throw new Error(updateResult.message || "Failed to update existing participant");
+        }
+
+        return participantId;
+    }
+
+    throw new Error(createResult.message || "Failed to save participant");
+}
 
 async function saveAll() {
 
@@ -133,83 +199,50 @@ async function saveAll() {
 
         };
 
-        console.log(participantData);
+        const participant_id = await saveOrUpdateParticipant(participantData); 
 
-        const participantResponse = await fetch(`${API_URL}/participants`, {
+        console.log("Generating contract...");
 
-            method:"POST",
-
-            headers:{
-                "Content-Type":"application/json"
+        const contractResponse = await fetch(`${API_URL}/contracts/participant/${participant_id}/generate`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
             },
-
-            body:JSON.stringify(participantData)
-
+            body: JSON.stringify({ participant_id })
         });
 
-        const participantResult = await participantResponse.json();
+        const contractResult = await contractResponse.json();
 
-        console.log(participantResult);
-
-        if (!participantResponse.ok) {
-            alert(participantResult.message);
-            return;
+        if (!contractResponse.ok) {
+            throw new Error(contractResult.message || "Failed to generate contract");
         }
 
-        const participant_id = participantResult.data.participant_id;
-
-        console.log(participant_id);
-
-
-        //get participant id and save contract
-        await fetch(`${API_URL}/contracts/participant/${participant_id}/generate`, {
-
-            method:"POST",
-
-            headers:{
-                "Content-Type":"application/json"
+        const wilResponse = await fetch(`${API_URL}/wil-letters/participant/${participant_id}/generate`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
             },
-
-            body:JSON.stringify({
-
-                participant_id
-
-            })
-
+            body: JSON.stringify({ participant_id })
         });
 
-        // get participant id and save wil
-        await fetch(`${API_URL}/wil-letters/participant/${participant_id}/generate`, {
+        const wilResult = await wilResponse.json();
 
-            method:"POST",
+        if (!wilResponse.ok) {
+            throw new Error(wilResult.message || "Failed to generate WIL letter");
+        }
 
-            headers:{
-                "Content-Type":"application/json"
-            },
+        localStorage.removeItem("contractData");
+        alert("Participant saved and documents generated successfully.");
+        window.location.href = "participants.html";
 
-            body:JSON.stringify({
+    } catch (err) {
+        console.error("SAVE ERROR");
+        console.error(err);
 
-                participant_id
+        if(err.stack){
+            console.error(err.stack);
+        }
 
-            })
-
-        });
-
+        alert(err.message);
     }
-    catch(err){
-
-        console.error(error);
-
-        res.status(500).json({
-            success: false,
-            message: "Error generating contract",
-            error: error.message,
-            stack: error.stack
-        });
-
-    }
-    
 }
-
-
-//add career exposure area

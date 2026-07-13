@@ -82,48 +82,53 @@ class ContractController {
                 });
             }
             
-            // Check if contract already exists
-            const hasContract = await ContractModel.hasContract(participantId);
-            if (hasContract) {
-                return res.status(400).json({
-                    success: false,
-                    message: 'This participant already has a contract. Use update instead.'
-                });
-            }
-            
-            // In a real app, this would generate PDF/DOCX files
-            // For now, we'll just store placeholder filenames
+            // Regenerate if a contract already exists
+            const existingContract = await ContractModel.getLatest(participantId);
+
             const pdfFilename =
                 await PDFService.createPDF(
                     "contract",
                     participant
                 );
 
-            const docxFilename =
-                await DOCXService.createDOCX(
+            let docxFilename = null;
+
+            try {
+                docxFilename = await DOCXService.createDOCX(
                     "contract",
                     participant
                 );
+            } catch (docxError) {
+                console.warn("DOCX generation skipped:", docxError.message);
+            }
 
-            const contractData = {
+            let contract;
 
-                participant_id: participantId,
+            if (existingContract) {
+                await ContractModel.update(existingContract.contract_id, {
+                    generated_pdf: pdfFilename,
+                    generated_docx: docxFilename,
+                    status: "Generated"
+                });
+                contract = await ContractModel.getById(existingContract.contract_id);
+            } else {
+                const contractData = {
+                    participant_id: participantId,
+                    generated_pdf: pdfFilename,
+                    generated_docx: docxFilename,
+                    status: "Generated"
+                };
 
-                generated_pdf: pdfFilename,
-
-                generated_docx: docxFilename,
-
-                status: "Generated"
-
-            };
+                const contractId = await ContractModel.create(contractData);
+                contract = await ContractModel.getById(contractId);
+            }
             
-            const contractId = await ContractModel.create(contractData);
-            const newContract = await ContractModel.getById(contractId);
-            
-            res.status(201).json({
+            res.status(existingContract ? 200 : 201).json({
                 success: true,
-                message: 'Contract generated successfully',
-                data: newContract
+                message: existingContract
+                    ? 'Contract regenerated successfully'
+                    : 'Contract generated successfully',
+                data: contract
             });
         } catch (error) {
              console.error(error);
@@ -285,37 +290,50 @@ class ContractController {
     }
 
     //download docx contract
-    static async downloadContractDOCX(req,res){
+    static async downloadContractDOCX(req, res) {
 
-        try{
+        try {
 
             const { participantId } = req.params;
 
-            const docxBuffer =
-                await ContractService.generateDocx(participantId);
+            const contract =
+                await ContractModel.getLatest(participantId);
 
-            res.setHeader(
-                "Content-Type",
-                "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-            );
+            if (!contract || !contract.generated_docx) {
 
-            res.setHeader(
-                "Content-Disposition",
-                `attachment; filename=Contract-${participantId}.docx`
-            );
+                return res.status(404).json({
+                    success: false,
+                    message: "DOCX file not found."
+                });
 
-            res.send(docxBuffer);
+            }
+
+            const filePath =
+                await DocumentService.getFilePath(
+                    "contract",
+                    "docx",
+                    contract.generated_docx
+                );
+
+            if (!DocumentService.fileExists(filePath)) {
+
+                return res.status(404).json({
+                    success: false,
+                    message: "DOCX file does not exist."
+                });
+
+            }
+
+            return res.download(filePath);
 
         }
-        catch(err){
+        catch (err) {
 
             console.error(err);
 
-            res.status(500).json({
-
-                success:false,
-                message:"Unable to generate DOCX."
-
+            return res.status(500).json({
+                success: false,
+                message: err.message
             });
 
         }

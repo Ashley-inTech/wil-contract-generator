@@ -12,6 +12,9 @@ router.get('/filter', participantController.getFilteredParticipants);
 // Get participant statistics
 router.get('/stats', participantController.getParticipantStats);
 
+// Get participant by ID number
+router.get('/by-id-number/:idNumber', participantController.getParticipantByIdNumber);
+
 // Get a single participant
 router.get('/:id', participantController.getParticipant);
 

@@ -6,7 +6,7 @@
     <title>Work Integrated Learning Agreement</title>
 
 
-    <link rel="stylesheet" href="<%= cssPath %>" />
+    <style><%- cssContent %></style>
   </head>
 
   <body>
@@ -18,7 +18,7 @@
         <header>
           <div class="company-info">
             <div class="logo">
-              <img src="<%= logoPath %>" alt="Logo" />
+              <img src="<%= logoDataUrl %>" alt="Logo" />
               <h3><span>HITEK</span>SOLUTIONS</h3>
             </div>
             <div class="company-details">
@@ -58,7 +58,7 @@
             <h5><strong>HITEKNOLOGY SOLUTIONS</strong></h5>
             <h5><strong>Mokwadi Street, Nellmapius</strong></h5>
 
-            <P><input type="date" id="dateCreated" name="dateCreated" placeholder="yyyy/mm/dd" /></P>
+            <P><%= participant.created_at %></P>
 
             <p>To whom it may concern</p>
             <p>RE: CONFIRMATION OF WIL PROGRAM ENROLMENT</p>
@@ -110,7 +110,7 @@
             </div>
             <div class="field-group">
               <label>Signature</label>
-              <img src="<%= signaturePath %>" alt="Company Signature" class="company-signature">
+              <img src="<%= signatureDataUrl %>" alt="Company Signature" class="company-signature">
             </div>
           </section>
 
