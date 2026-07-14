@@ -876,6 +876,50 @@ li {
     transform: translateY(-2px);
   }
 
+.pagination{
+
+    display:flex;
+    justify-content:center;
+    gap:8px;
+
+    margin-top:30px;
+    flex-wrap:wrap;
+}
+
+.pagination button{
+
+    padding:10px 16px;
+
+    border:none;
+
+    border-radius:6px;
+
+    background:#ececec;
+
+    cursor:pointer;
+
+    transition:.2s;
+}
+
+.pagination button:hover{
+
+    background:#dcdcdc;
+}
+
+.pagination button.active{
+
+    background:#b70089;
+
+    color:white;
+}
+
+.pagination button:disabled{
+
+    opacity:.5;
+
+    cursor:not-allowed;
+}
+
   .pdf-preview {
     display: none;
     white-space: pre-wrap;

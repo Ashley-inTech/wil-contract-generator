@@ -20,6 +20,10 @@ DB_PORT=3306
 PORT=3000
 
 ### run
+nodemon --verbose server/app.js   (recommended)
+
+or
+
 npm install dev
 
 ## run on frontend on port:5500

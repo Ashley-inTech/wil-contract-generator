@@ -3,7 +3,7 @@
     // Define API_URL
     const API_URL = 'http://localhost:3000/api';
     
-    // EXPOSE TO GLOBAL - DO THIS FIRST
+    // EXPOSE TO GLOBAL
     window.API_URL = API_URL;
 
     const contractData = JSON.parse(
@@ -113,10 +113,12 @@
     // Save participant details
     const saveContractBtn = document.getElementById("saveContractBtn");
 
-    saveContractBtn.addEventListener("click", function(e) {
-        e.preventDefault();
-        saveContract();
-    });
+    if (saveContractBtn) {
+        saveContractBtn.addEventListener("click", function(e) {
+            e.preventDefault();
+            saveContract();
+        });
+    }
 
     async function saveOrUpdateParticipant(participantData) {
         if (participantData.participant_id) {
@@ -219,10 +221,17 @@
 
             alert("Contract generated successfully.");
 
+            // Enable the WIL button (but the function is now in contents.js)
             const saveWilBtn = document.getElementById("saveWilBtn");
             if (saveWilBtn) {
                 saveWilBtn.disabled = false;
                 saveWilBtn.textContent = "Generate WIL Letter";
+                // Add a message that WIL generation is now in Contents page
+                saveWilBtn.title = "Click to go to Contents page to generate WIL letter";
+                // Optionally, redirect to contents page when clicked
+                saveWilBtn.onclick = function() {
+                    window.location.href = "contents.html";
+                };
             }
             
             saveContractBtn.textContent = "Contract Saved";
@@ -422,74 +431,5 @@
     }
 
     // Make sure API_URL is globally available
-    //window.API_URL = API_URL;
-
-    // Add WIL generation at the end
-    document.addEventListener('DOMContentLoaded', function() {
-        const saveWilBtn = document.getElementById('saveWilBtn');
-        
-        if (saveWilBtn) {
-            saveWilBtn.addEventListener('click', generateWilLetter);
-        }
-
-        const participantId = localStorage.getItem('participantId');
-        if (participantId && saveWilBtn) {
-            saveWilBtn.disabled = false;
-            saveWilBtn.textContent = 'Generate WIL Letter';
-        }
-    });
-
-    async function generateWilLetter(event) {
-        if (event) event.preventDefault();
-        
-        const saveWilBtn = document.getElementById('saveWilBtn');
-        
-        try {
-            saveWilBtn.disabled = true;
-            saveWilBtn.textContent = 'Generating...';
-
-            const participant_id = localStorage.getItem('participantId');
-
-            if (!participant_id) {
-                alert('Please save the contract first.');
-                saveWilBtn.disabled = false;
-                saveWilBtn.textContent = 'Save WIL';
-                return;
-            }
-
-            const response = await fetch(
-                `${API_URL}/wil-letters/participant/${participant_id}/generate`,
-                {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/json'
-                    },
-                    body: JSON.stringify({ 
-                        participant_id: parseInt(participant_id) 
-                    })
-                }
-            );
-
-            const result = await response.json();
-
-            if (!response.ok) {
-                throw new Error(result.message || `HTTP ${response.status}: Failed to generate WIL letter`);
-            }
-
-            localStorage.removeItem('participantId');
-            localStorage.removeItem('contractData');
-            localStorage.removeItem('generateWil');
-
-            alert('WIL Letter generated successfully!');
-            window.location.href = 'contents.html';
-
-        } catch (err) {
-            console.error('WIL Generation Error:', err);
-            alert('Error generating WIL letter: ' + err.message);
-            
-            saveWilBtn.disabled = false;
-            saveWilBtn.textContent = 'Generate WIL Letter';
-        }
-    }
+    window.API_URL = API_URL;
 })();

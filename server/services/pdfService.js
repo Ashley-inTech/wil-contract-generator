@@ -3,6 +3,7 @@ import ejs from "ejs";
 import path from "path";
 import fs from "fs";
 import fsPromises from "fs/promises";
+import os from "os";
 
 import DocumentService from "./documentService.js";
 
@@ -21,6 +22,39 @@ class PDFService {
         });
     }
 
+   static calculateDuration(startDate, endDate) {
+        if (!startDate || !endDate) return "";
+
+        const start = new Date(startDate);
+        const end = new Date(endDate);
+
+        let years = end.getFullYear() - start.getFullYear();
+        let months = end.getMonth() - start.getMonth();
+
+        if (end.getDate() < start.getDate()) {
+            months--;
+        }
+
+        if (months < 0) {
+            years--;
+            months += 12;
+        }
+
+        months++;
+
+        const parts = [];
+
+        if (years > 0) {
+            parts.push(`${years} year${years > 1 ? "s" : ""}`);
+        }
+
+        if (months > 0) {
+            parts.push(`${months} month${months > 1 ? "s" : ""}`);
+        }
+
+        return parts.join(" ");
+    }
+
     static prepareParticipant(participant) {
         const responsibilities =
             participant.responsibilities ||
@@ -35,6 +69,10 @@ class PDFService {
             commencement_date: this.formatDate(participant.commencement_date),
             termination_date: this.formatDate(participant.termination_date),
             created_at: this.formatDate(participant.created_at),
+            duration_months: this.calculateDuration(
+                participant.commencement_date,
+                participant.termination_date
+            ),
             responsibilities,
             exposure_areas: participant.exposure_areas || ""
         };
@@ -61,7 +99,20 @@ class PDFService {
                 "--no-sandbox", 
                 "--disable-setuid-sandbox",
                 "--disable-dev-shm-usage",
-                "--disable-gpu"
+                "--disable-gpu",
+                "--disable-software-rasterizer",
+                "--disable-extensions",
+                "--disable-background-networking",
+                "--disable-default-apps",
+                "--disable-sync",
+                "--disable-translate",
+                "--hide-scrollbars",
+                "--metrics-recording-only",
+                "--mute-audio",
+                "--no-first-run",
+                "--safebrowsing-disable-auto-update",
+                // Use a unique user data dir to avoid conflicts: use node temp's dir
+                `--user-data-dir=${path.join(os.tmpdir(), "puppeteer_profile_" + Date.now())}`
             ]
         };
 
@@ -141,8 +192,10 @@ class PDFService {
 
             // Use A4 dimensions in pixels (595 x 842)
             await page.setViewport({
-                width: 595,
-                height: 842,
+                /*width: 595,
+                height: 842,*/
+                width: 1280,
+                height: 1800,
                 deviceScaleFactor: 1
             });
 
@@ -150,20 +203,25 @@ class PDFService {
             
             // Set content with wait for all resources
             await page.setContent(html, {
-                waitUntil: "networkidle0"
+                waitUntil: "domcontentloaded",
+                timeout: 15000
             });
+
+            // Wait a bit for styles to apply
+            // Wait for images to load (using proper method)
+            await new Promise(resolve => setTimeout(resolve, 1000));
 
             // Generate PDF with proper settings
             await page.pdf({
                 path: filePath,
                 format: "A4",
                 printBackground: true,
-                preferCSSPageSize: true,
+                preferCSSPageSize: false,
                 margin: {
-                    top: "15mm",
-                    right: "15mm",
-                    bottom: "15mm",
-                    left: "15mm"
+                    top: "0",
+                    right: "0",
+                    bottom: "0",
+                    left: "0"
                 },
                 displayHeaderFooter: false,
                 landscape: false

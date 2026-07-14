@@ -9,6 +9,12 @@
     "dev": "nodemon server/app.js",
     "setup:browser": "puppeteer browsers install chrome"
   },
+  "nodemonConfig": {
+    "ignore": [
+        "server/uploads/**",
+        "server/temp/**"
+    ]
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",

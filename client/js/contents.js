@@ -12,6 +12,14 @@ document.addEventListener("DOMContentLoaded", () => {
     const documentsModal = document.getElementById("documentsModal");
     const documentsList = document.getElementById("documentsList");
     const modalParticipantName = document.getElementById("modalParticipantName");
+    const generateWilModal = document.getElementById("generateWilModal");
+    const wilParticipantSelect = document.getElementById("wilParticipantSelect");
+    const floatingGenerateWilBtn = document.getElementById("floatingGenerateWilBtn");
+    const pagination = document.getElementById("pagination");
+
+    let allParticipants = [];
+    let currentPage = 1;
+    const itemsPerPage = 5;
 
     //==================================================
     // Escape HTML
@@ -66,13 +74,94 @@ document.addEventListener("DOMContentLoaded", () => {
                 );
             }
 
-            renderParticipants(result.data);
+            /*renderParticipants(result.data);
+            populateParticipantSelect(result.data);*/
+            allParticipants = result.data;
+
+            renderCurrentPage();
+
+            populateParticipantSelect(allParticipants);
         } catch (err) {
             console.error(err);
             contentsList.innerHTML = `
                 <p class="empty-state">${escapeHtml(err.message)}</p>
             `;
         }
+    }
+
+    //==================================================
+    // Render Current Page 
+    //==================================================
+    function renderCurrentPage() {
+
+        const start = (currentPage - 1) * itemsPerPage;
+        const end = start + itemsPerPage;
+
+        const pageItems = allParticipants.slice(start, end);
+
+        renderParticipants(pageItems);
+
+        renderPagination();
+    }
+
+    //==================================================
+    // Render Pagination Page 
+    //==================================================
+    function renderPagination() {
+
+        const totalPages = Math.ceil(allParticipants.length / itemsPerPage);
+
+        if (totalPages <= 1) {
+            pagination.innerHTML = "";
+            return;
+        }
+
+        let html = "";
+
+        html += `
+            <button
+                ${currentPage === 1 ? "disabled" : ""}
+                data-page="${currentPage - 1}">
+                Previous
+            </button>
+        `;
+
+        for (let i = 1; i <= totalPages; i++) {
+
+            html += `
+                <button
+                    class="${i === currentPage ? "active" : ""}"
+                    data-page="${i}">
+                    ${i}
+                </button>
+            `;
+        }
+
+        html += `
+            <button
+                ${currentPage === totalPages ? "disabled" : ""}
+                data-page="${currentPage + 1}">
+                Next
+            </button>
+        `;
+
+        pagination.innerHTML = html;
+    }
+
+    //==================================================
+    // Populate Participant Select for WIL Generation
+    //==================================================
+    function populateParticipantSelect(participants) {
+        if (!wilParticipantSelect) return;
+        
+        wilParticipantSelect.innerHTML = '<option value="">-- Select Participant --</option>';
+        
+        participants.forEach(participant => {
+            const option = document.createElement("option");
+            option.value = participant.participant_id;
+            option.textContent = `${participant.first_name} ${participant.last_name} (${participant.id_number})`;
+            wilParticipantSelect.appendChild(option);
+        });
     }
 
     //==================================================
@@ -268,6 +357,81 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     //==================================================
+    // Open Generate WIL Modal
+    //==================================================
+    function openGenerateWilModal() {
+        generateWilModal.style.display = "flex";
+        // Refresh the participant list
+        loadParticipants();
+    }
+
+    //==================================================
+    // Close Generate WIL Modal
+    //==================================================
+    function closeGenerateWilModal() {
+        generateWilModal.style.display = "none";
+        if (wilParticipantSelect) {
+            wilParticipantSelect.value = "";
+        }
+    }
+
+    //==================================================
+    // Generate WIL Letter
+    //==================================================
+    async function generateWilLetter() {
+        const participantId = wilParticipantSelect?.value;
+        
+        if (!participantId) {
+            alert("Please select a participant.");
+            return;
+        }
+
+        const generateBtn = document.getElementById("generateWilBtn");
+        
+        try {
+            generateBtn.disabled = true;
+            generateBtn.textContent = "Generating...";
+
+            console.log("Generating WIL letter for participant:", participantId);
+
+            const response = await fetch(
+                `${API_URL}/wil-letters/participant/${participantId}/generate`,
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify({ 
+                        participant_id: parseInt(participantId) 
+                    })
+                }
+            );
+
+            const result = await response.json();
+
+            if (!response.ok) {
+                throw new Error(result.message || `HTTP ${response.status}: Failed to generate WIL letter`);
+            }
+
+            console.log("WIL letter generated successfully:", result);
+
+            alert('WIL Letter generated successfully!');
+            closeGenerateWilModal();
+            
+            // Refresh the page to show updated content
+            loadParticipants();
+
+        } catch (err) {
+            console.error('WIL Generation Error:', err);
+            alert('Error generating WIL letter: ' + err.message);
+        } finally {
+            generateBtn.disabled = false;
+            generateBtn.textContent = "Generate WIL Letter";
+        }
+    }
+
+    //==================================================
     // Handle Button Actions
     //==================================================
     async function handleAction(event) {
@@ -313,6 +477,17 @@ document.addEventListener("DOMContentLoaded", () => {
         contentsList.addEventListener("click", handleAction);
     }
 
+    pagination.addEventListener("click", (e) => {
+
+        const button = e.target.closest("button");
+
+        if (!button) return;
+
+        currentPage = Number(button.dataset.page);
+
+        renderCurrentPage();
+    });
+    
     // Close modals when clicking outside
     window.addEventListener("click", function(event) {
         if (event.target === contractViewModal) {
@@ -320,6 +495,9 @@ document.addEventListener("DOMContentLoaded", () => {
         }
         if (event.target === documentsModal) {
             closeDocumentsModal();
+        }
+        if (event.target === generateWilModal) {
+            closeGenerateWilModal();
         }
     });
 
@@ -332,6 +510,27 @@ document.addEventListener("DOMContentLoaded", () => {
     const closeDocumentsBtn = document.getElementById("closeDocumentsModalBtn");
     if (closeDocumentsBtn) {
         closeDocumentsBtn.addEventListener("click", closeDocumentsModal);
+    }
+
+    const closeGenerateWilBtn = document.getElementById("closeGenerateWilModalBtn");
+    if (closeGenerateWilBtn) {
+        closeGenerateWilBtn.addEventListener("click", closeGenerateWilModal);
+    }
+
+    const cancelGenerateWilBtn = document.getElementById("cancelGenerateWilBtn");
+    if (cancelGenerateWilBtn) {
+        cancelGenerateWilBtn.addEventListener("click", closeGenerateWilModal);
+    }
+
+    // Floating button to open Generate WIL modal
+    if (floatingGenerateWilBtn) {
+        floatingGenerateWilBtn.addEventListener("click", openGenerateWilModal);
+    }
+
+    // Generate WIL button
+    const generateWilBtn = document.getElementById("generateWilBtn");
+    if (generateWilBtn) {
+        generateWilBtn.addEventListener("click", generateWilLetter);
     }
 
     // Load participants on page load
