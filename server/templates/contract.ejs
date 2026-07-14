@@ -4,8 +4,303 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Work Integrated Learning Agreement</title>
-
-    <style><%- cssContent %></style>
+    <%- cssContent %>
+    <style>
+      /* Additional PDF-specific styles */
+      @page {
+        size: A4;
+        margin: 0;
+      }
+      
+      * {
+        box-sizing: border-box;
+      }
+      
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: "Poppins", sans-serif;
+        background: white;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+      
+      .document {
+        width: 100%;
+        max-width: 210mm;
+        margin: 0 auto;
+      }
+      
+      /* Only add page break after all pages except the last one */
+      .page:not(:last-child) {
+        page-break-after: always;
+        break-after: page;
+      }
+      
+      .page {
+        width: 100%;
+        min-height: 297mm;
+        padding: 0;
+        margin: 0;
+        background: white;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+      }
+      
+      .page-content {
+        flex: 1;
+        padding: 20px 0;
+      }
+      
+      header {
+        width: 100%;
+        display: block !important;
+        page-break-inside: avoid;
+      }
+      
+      header::before {
+        content: "";
+        display: block;
+        height: 38px;
+        background: linear-gradient(90deg, #b70089, #96166f);
+      }
+      
+      .company-info {
+        background-color: #282627;
+        display: flex;
+        position: relative;
+        padding: 0 150px;
+        align-items: center;
+        justify-content: space-between;
+      }
+      
+      .logo {
+        width: 120px;
+        height: 200px;
+        background: #00989b;
+        position: absolute;
+        top: -50px;
+        left: 60px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        color: #fff;
+        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.25);
+        padding: 0 20px;
+      }
+      
+      .logo img {
+        width: 80px;
+        margin-bottom: 8px;
+      }
+      
+      .logo h3 {
+        font-size: 14px;
+        font-weight: 300;
+        letter-spacing: 1px;
+        margin: 0;
+        text-align: center;
+      }
+      
+      .logo span {
+        font-weight: 700;
+      }
+      
+      .company-details {
+        margin-left: auto;
+        padding: 10px 0;
+      }
+      
+      .company-details ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+      
+      .company-details li {
+        color: #fff;
+        font-size: 11px;
+        margin: 5px 0;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      
+      .company-details li .icon-svg {
+        width: 14px;
+        height: 14px;
+        display: inline-block;
+        flex-shrink: 0;
+        fill: #ffffff;
+      }
+      
+      section {
+        padding: 0 50px;
+        margin-bottom: 18px;
+      }
+      
+      section p {
+        font-size: 12px;
+        margin-bottom: 8px;
+        text-align: justify;
+        line-height: 1.6;
+      }
+      
+      section h6, section h2, section h4 {
+        font-size: 14px;
+        margin: 25px 0 10px;
+        font-weight: 700;
+        text-transform: uppercase;
+      }
+      
+      .agreement-intro {
+        margin-top: 60px;
+      }
+      
+      .agreement-intro h5 {
+        font-size: 16px;
+        text-transform: uppercase;
+        margin: 20px 0 10px;
+      }
+      
+      .responsibility-list {
+        padding-left: 20px;
+        margin: 8px 0 15px;
+      }
+      
+      .responsibility-list li {
+        font-size: 12px;
+        margin-bottom: 4px;
+        line-height: 1.6;
+      }
+      
+      .field-group {
+        margin-bottom: 15px;
+      }
+      
+      .field-group label {
+        display: block;
+        font-size: 12px;
+        font-weight: 500;
+        margin-bottom: 5px;
+      }
+      
+      .company-signature {
+        width: 150px;
+        height: auto;
+        display: block;
+        margin-top: 8px;
+      }
+      
+      .signature-area {
+        width: 100%;
+        height: 100px;
+        border: 2px dashed #999;
+        border-radius: 6px;
+        background: #fafafa;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #aaa;
+        font-size: 12px;
+        margin-top: 5px;
+      }
+      
+      .blank-line {
+        display: inline-block;
+        border-bottom: 2px solid #555;
+        height: 20px;
+        min-width: 60px;
+        margin: 0 4px;
+        background: transparent;
+      }
+      
+      .readonly-field {
+        font-size: 12px;
+        font-weight: 500;
+        margin: 8px 0;
+      }
+      
+      .contacts {
+        margin-top: 30px;
+        border-top: 1px solid #ddd;
+        padding-top: 15px;
+      }
+      
+      .contacts p {
+        font-size: 12px;
+        margin-bottom: 3px;
+      }
+      
+      .contacts a {
+        color: #0066cc;
+        text-decoration: none;
+      }
+      
+      hr {
+        border: none;
+        border-top: 1px solid #bdbdbd;
+        margin: 20px 50px;
+      }
+      
+      footer {
+        width: 100%;
+        height: 22px;
+        display: flex;
+        margin-top: auto;
+      }
+      
+      .right {
+        width: 50%;
+        background: #088e92;
+      }
+      
+      .left {
+        width: 50%;
+        background: #38bfd1;
+      }
+      
+      .signature-note {
+        font-size: 10px;
+        color: #888;
+        margin-top: 4px;
+      }
+      
+      .signed-date {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        flex-wrap: wrap;
+        font-size: 12px;
+      }
+      
+      .signed-date span {
+        font-size: 12px;
+      }
+      
+      /* Fix for SVG icons in PDF */
+      .icon-svg {
+        display: inline-block;
+        vertical-align: middle;
+      }
+      
+      /* Ensure strong tags are bold */
+      strong {
+        font-weight: 700;
+      }
+      
+      /* Hide page numbers that might appear */
+      .page-number {
+        display: none !important;
+      }
+      
+      /* Ensure no extra spacing at the bottom */
+      .page-content:last-child {
+        padding-bottom: 10px;
+      }
+    </style>
   </head>
 
   <body>
@@ -13,8 +308,7 @@
 
       <!-- ======================= PAGE 1 ======================= -->
       <div class="page" id="page1">
-
-          <header>
+        <header>
               <div class="company-info">
 
                   <div class="logo">
@@ -60,93 +354,47 @@
               </div>
           </header>
 
-          <div class="page-content">
+        <div class="page-content">
+          <section class="agreement-intro">
+            <h5><strong>Work Integrated Learning Agreement</strong></h5>
+            <p>
+              This Agreement is entered into between
+              <strong>Hiteknology Solutions</strong>
+              and
+              <strong><%= participant.full_name %></strong>
+              ("the Participant") for the period commencing on
+              <strong><%= participant.start_date %></strong>
+              and terminating on
+              <strong><%= participant.end_date %></strong>.
+            </p>
+          </section>
 
-              <section class="agreement-intro">
+          <section>
+            <h6>1. APPOINTMENT</h6>
+            <p>1.1 The Participant is appointed to undertake Work Integrated Learning at the Company.</p>
+            <p>1.2 This Agreement does not constitute an employment relationship, and no remuneration will be provided to the Participant.</p>
+          </section>
 
-                  <h5>
-                      <strong>Work Integrated Learning Agreement</strong>
-                  </h5>
+          <section>
+            <h6>2. PLACE OF WORK AND WORKING HOURS</h6>
+            <p>2.1 The Participant's primary place of work will be remote.</p>
+            <p>2.2 The Company's offices are located at 4380 Mokwadi Street, Nellmapius.</p>
+            <p>2.3 The Participant is expected to be reasonably contactable during the Company's core operating hours, which are 08:00 to 17:00 from Monday to Friday.</p>
+            <p>2.4 The Participant is required to account for at least 8 hours per day, excluding lunch and other breaks, Monday to Friday.</p>
+            <p>2.5 The Participant may be required to work at locations other than the Company's primary offices. Any other arrangement regarding working hours must be agreed in writing by the relevant Business Unit.</p>
+            <p>2.6 Reasonable overtime may be necessary due to business needs, which may require the Participant to start work earlier and/or later than the Company's main operating hours.</p>
+          </section>
+        </div>
 
-                  <p>
-
-                      This Agreement is entered into between
-                      <strong>Hiteknology Solutions</strong>
-                      and
-
-                      <strong><%= participant.full_name %></strong>
-
-                      ("the Participant") for the period commencing on
-
-                      <strong><%= participant.start_date %></strong>
-
-                      and terminating on
-
-                      <strong><%= participant.end_date %></strong>.
-
-                  </p>
-
-              </section>
-
-              <section>
-
-                  <h6>1. APPOINTMENT</h6>
-
-                  <p>
-                      1.1 The Participant is appointed to undertake Work Integrated Learning at the Company.
-                  </p>
-
-                  <p>
-                      1.2 This Agreement does not constitute an employment relationship, and no remuneration will be provided to the Participant.
-                  </p>
-
-              </section>
-
-              <section>
-
-                  <h6>2. PLACE OF WORK AND WORKING HOURS</h6>
-
-                  <p>
-                      2.1 The Participant's primary place of work will be remote.
-                  </p>
-
-                  <p>
-                      2.2 The Company's offices are located at 4380 Mokwadi Street, Nellmapius.
-                  </p>
-
-                  <p>
-                      2.3 The Participant is expected to be reasonably contactable during the Company's core operating hours, which are 08:00 to 17:00 from Monday to Friday.
-                  </p>
-
-                  <p>
-                      2.4 The Participant is required to account for at least 8 hours per day, excluding lunch and other breaks, Monday to Friday.
-                  </p>
-
-                  <p>
-                      2.5 The Participant may be required to work at locations other than the Company's primary offices. Any other arrangement regarding working hours must be agreed in writing by the relevant Business Unit.
-                  </p>
-
-                  <p>
-                      2.6 Reasonable overtime may be necessary due to business needs, which may require the Participant to start work earlier and/or later than the Company's main operating hours.
-                  </p>
-
-              </section>
-
-          </div>
-
-          <footer>
-
-              <div class="right"></div>
-              <div class="left"></div>
-
-          </footer>
-
+        <footer>
+          <div class="right"></div>
+          <div class="left"></div>
+        </footer>
       </div>
 
       <!-- ======================= PAGE 2 ======================= -->
       <div class="page" id="page2">
-
-          <header>
+        <header>
               <div class="company-info">
 
                   <div class="logo">
@@ -156,100 +404,87 @@
 
                   <div class="company-details">
                       <ul>
-                          <li>@hiteknologysol1</li>
-                          <li>info@hiteknologysolutions.co.za</li>
-                          <li>@hiteknologysolutions</li>
-                          <li>+27 (0)73 797 4505</li>
+
+                          <li>
+                              <svg class="icon-svg" viewBox="0 0 24 24" fill="white" width="16" height="16">
+                                  <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                              </svg>
+                              @hiteknologysol1
+                          </li>
+
+                          <li>
+                              <svg class="icon-svg" viewBox="0 0 24 24" fill="white" width="16" height="16">
+                                  <path d="M1.5 8.67v8.58a3 3 0 003 3h15a3 3 0 003-3V8.67l-8.928 5.493a3 3 0 01-3.144 0L1.5 8.67z"/>
+                                  <path d="M22.5 6.908V6.75a3 3 0 00-3-3h-15a3 3 0 00-3 3v.158l9.714 5.978a1.5 1.5 0 001.572 0L22.5 6.908z"/>
+                              </svg>
+                              info@hiteknologysolutions.co.za
+                          </li>
+
+                          <li>
+                              <svg class="icon-svg" viewBox="0 0 24 24" fill="white" width="16" height="16">
+                                  <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                              </svg>
+                              @hiteknologysolutions
+                          </li>
+
+                          <li>
+                              <svg class="icon-svg" viewBox="0 0 24 24" fill="white" width="16" height="16">
+                                  <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+                              </svg>
+                              +27 (0)73 797 4505
+                          </li>
+
                       </ul>
                   </div>
 
               </div>
           </header>
 
-          <div class="page-content">
+        <div class="page-content">
+          <section>
+            <h6>3. ROLE AND RESPONSIBILITIES</h6>
+            <p>3.1 The Participant's role will focus on <strong><%= participant.career_name %></strong></p>
+            <p>3.2 Responsibilities include but are not limited to:</p>
+            <ul class="responsibility-list">
+              <% 
+                let responsibilities = participant.responsibilities || '';
+                let items = responsibilities.split('.').filter(item => item.trim());
+                if (items.length === 0) {
+                  items = responsibilities.split('\n').filter(item => item.trim());
+                }
+                items.forEach(item => { 
+              %>
+                <li><%= item.trim() %></li>
+              <% }) %>
+            </ul>
+          </section>
 
-              <section>
+          <section>
+            <h6>4. TERMINATION</h6>
+            <p>4.1 This Agreement may be terminated by either party by providing one month's written notice.</p>
+            <p>4.2 The Company reserves the right to terminate this Agreement immediately for any conduct that is deemed to be gross misconduct, breach of trust or any action that may bring the Company into disrepute.</p>
+          </section>
 
-                  <h6>3. ROLE AND RESPONSIBILITIES</h6>
+          <section>
+            <h6>5. CONFIDENTIALITY</h6>
+            <p>5.1 The Participant agrees to maintain confidentiality of all proprietary information and trade secrets of the Company during and after the term of the Work Integrated Learning programme.</p>
+          </section>
 
-                  <p>
+          <section>
+            <h6>6. INTELLECTUAL PROPERTY</h6>
+            <p>6.1 Any intellectual property created by the Participant during the course of the Work Integrated Learning period shall remain the exclusive property of Hiteknology Solutions unless otherwise agreed in writing.</p>
+          </section>
+        </div>
 
-                      3.1 The Participant's role will focus on
-
-                      <strong>
-                          <%= participant.career_name %>
-                      </strong>
-
-                  </p>
-
-                  <p>
-                      3.2 Responsibilities include but are not limited to:
-                  </p>
-
-                  <ul class="responsibility-list">
-
-                    <% participant.responsibilities
-                        .split(".")
-                        .filter(item => item.trim())
-                        .forEach(item => { %>
-
-                        <li><%= item.trim() %></li>
-
-                    <% }) %>
-
-                </ul>
-
-              </section>
-
-              <section>
-
-                  <h6>4. TERMINATION</h6>
-
-                  <p>
-                      4.1 This Agreement may be terminated by either party by providing one month's written notice.
-                  </p>
-
-                  <p>
-                      4.2 The Company reserves the right to terminate this Agreement immediately for any conduct that is deemed to be gross misconduct, breach of trust or any action that may bring the Company into disrepute.
-                  </p>
-
-              </section>
-
-              <section>
-
-                  <h6>5. CONFIDENTIALITY</h6>
-
-                  <p>
-                      5.1 The Participant agrees to maintain confidentiality of all proprietary information and trade secrets of the Company during and after the term of the Work Integrated Learning programme.
-                  </p>
-
-              </section>
-
-              <section>
-
-                  <h6>6. INTELLECTUAL PROPERTY</h6>
-
-                  <p>
-                      6.1 Any intellectual property created by the Participant during the course of the Work Integrated Learning period shall remain the exclusive property of Hiteknology Solutions unless otherwise agreed in writing.
-                  </p>
-
-              </section>
-
-          </div>
-
-          <footer>
-
-              <div class="right"></div>
-              <div class="left"></div>
-
-          </footer>
-
+        <footer>
+          <div class="right"></div>
+          <div class="left"></div>
+        </footer>
       </div>
 
       <!-- ======================= PAGE 3 ======================= -->
       <div class="page" id="page3">
-
-          <header>
+        <header>
               <div class="company-info">
 
                   <div class="logo">
@@ -259,176 +494,118 @@
 
                   <div class="company-details">
                       <ul>
-                          <li>@hiteknologysol1</li>
-                          <li>info@hiteknologysolutions.co.za</li>
-                          <li>@hiteknologysolutions</li>
-                          <li>+27 (0)73 797 4505</li>
+
+                          <li>
+                              <svg class="icon-svg" viewBox="0 0 24 24" fill="white" width="16" height="16">
+                                  <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                              </svg>
+                              @hiteknologysol1
+                          </li>
+
+                          <li>
+                              <svg class="icon-svg" viewBox="0 0 24 24" fill="white" width="16" height="16">
+                                  <path d="M1.5 8.67v8.58a3 3 0 003 3h15a3 3 0 003-3V8.67l-8.928 5.493a3 3 0 01-3.144 0L1.5 8.67z"/>
+                                  <path d="M22.5 6.908V6.75a3 3 0 00-3-3h-15a3 3 0 00-3 3v.158l9.714 5.978a1.5 1.5 0 001.572 0L22.5 6.908z"/>
+                              </svg>
+                              info@hiteknologysolutions.co.za
+                          </li>
+
+                          <li>
+                              <svg class="icon-svg" viewBox="0 0 24 24" fill="white" width="16" height="16">
+                                  <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                              </svg>
+                              @hiteknologysolutions
+                          </li>
+
+                          <li>
+                              <svg class="icon-svg" viewBox="0 0 24 24" fill="white" width="16" height="16">
+                                  <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+                              </svg>
+                              +27 (0)73 797 4505
+                          </li>
+
                       </ul>
                   </div>
 
               </div>
           </header>
 
-
-          <div class="page-content">
-
-              <section>
-
-                  <h2>7. GENERAL PROVISIONS</h2>
-
-                  <p>
-                      7.1 This Agreement constitutes the entire agreement between the
-                      parties and supersedes all prior understandings whether written
-                      or oral.
-                  </p>
-
-                  <p>
-                      7.2 Any amendments to this Agreement must be made in writing
-                      and signed by both parties.
-                  </p>
-
-              </section>
-
-
-              <section class="company-section">
-
-                  <p>For and on behalf of the Company</p>
-
-                  <div class="field-group">
-
-                      <label>Signature</label>
-
-                      <img
-                          src="<%= signatureDataUrl %>"
-                          alt="Company Signature"
-                          class="company-signature">
-
-                  </div>
-
-                  <div class="field-group">
-
-                      <<p class="readonly-field">
-                          Sebaka Mogano
-                      </p>
-
-                  </div>
-
-              </section>
-
-              <hr>
-
-              <section class="participant-section">
-
-                  <p>Participant Declaration</p>
-
-                  <p>
-
-                      I,
-
-                      <strong><%= participant.full_name %></strong>
-
-                      with ID number
-
-                      <strong><%= participant.id_number %></strong>
-
-                      hereby confirm that I understand, accept and agree to be bound
-                      by all of the terms and conditions set out herein as well as in
-                      any Schedule, Annexure, Policy, Procedure and Recommended
-                      Practice related hereto.
-
-                  </p>
-
-
-                  <div class="field-group">
-
-                      <label>Participant Signature</label>
-
-                      <div class="signature-area">
-
-                          <% if (participant.signature) { %>
-
-                              <img
-                                  src="<%= participant.signature %>"
-                                  class="participant-signature">
-
-                          <% } else { %>
-
-                              <span>Sign here</span>
-
-                          <% } %>
-
-                      </div>
-
-                      <p class="signature-note">
-                          Print this document and sign physically
-                      </p>
-
-                  </div>
-
-                  <hr>
-
-                  <br>
-
-                  <div class="field-group">
-
-                      <p class="signed-date">
-
-                          <span>Signed at</span>
-
-                          <span class="blank-line">
-                              <%= participant.signed_location || "" %>
-                          </span>
-
-                          <span>on this</span>
-
-                          <span class="blank-line">
-                              <%= participant.signed_day || "" %>
-                          </span>
-
-                          <span>day of</span>
-
-                          <span class="blank-line">
-                              <%= participant.signed_month || "" %>
-                          </span>
-
-                          <span>
-                              <%= participant.signed_year || "" %>
-                          </span>
-
-                          <span>.</span>
-
-                      </p>
-
-                  </div>
-
-              </section>
-
-
-              <section class="contacts">
-
-                  <p>Hiteknology Solutions (Pty) Ltd</p>
-
-                  <p>Phone: 073-7974-505</p>
-
-                  <p>Mobile: 081-550-0304</p>
-
-                  <p>Mokwadi Street, Nellmapius, 4380</p>
-
-                  <p>Reg No : 2021 / 347028 / 07</p>
-
-                  <p>
-                      https://hiteknologysolutions.co.za/
-                  </p>
-
-              </section>
-
-          </div>
-
-          <footer>
-              <div class="right"></div>
-              <div class="left"></div>
-          </footer>
-
+        <div class="page-content">
+          <section>
+            <h6>7. GENERAL PROVISIONS</h6>
+            <p>7.1 This Agreement constitutes the entire agreement between the parties and supersedes all prior understandings whether written or oral.</p>
+            <p>7.2 Any amendments to this Agreement must be made in writing and signed by both parties.</p>
+          </section>
+
+          <section class="company-section">
+            <p><strong>For and on behalf of the Company</strong></p>
+            <div class="field-group">
+              <label>Signature</label>
+              <img src="<%= signatureDataUrl %>" alt="Company Signature" class="company-signature" />
+            </div>
+            <div class="field-group">
+              <p class="readonly-field"><strong>Sebaka Mogano</strong></p>
+            </div>
+          </section>
+
+          <hr />
+
+          <section class="participant-section">
+            <p><strong>Participant Declaration</strong></p>
+            <p>
+              I, <strong><%= participant.full_name %></strong> with ID number
+              <strong><%= participant.id_number %></strong> hereby confirm that I
+              understand, accept and agree to be bound by all of the terms and
+              conditions set out herein as well as in any Schedule, Annexure,
+              Policy, Procedure and Recommended Practice related hereto.
+            </p>
+
+            <div class="field-group">
+              <label>Participant Signature</label>
+              <div class="signature-area">
+                <% if (participant.signature) { %>
+                  <img src="<%= participant.signature %>" class="participant-signature" />
+                <% } else { %>
+                  <span>Sign here</span>
+                <% } %>
+              </div>
+              <p class="signature-note" style="font-size: 11px; color: #888; margin-top: 4px;">
+                Print this document and sign physically
+              </p>
+            </div>
+
+            <hr />
+
+            <br />
+
+            <div class="field-group">
+              <p class="signed-date">
+                <span>Signed at</span>
+                <span class="blank-line"><%= participant.signed_location || "" %></span>
+                <span>on this</span>
+                <span class="blank-line"><%= participant.signed_day || "" %></span>
+                <span>day of</span>
+                <span class="blank-line"><%= participant.signed_month || "" %></span>
+                <span><%= participant.signed_year || "" %></span>
+                <span>.</span>
+              </p>
+            </div>
+          </section>
+
+          <section class="contacts">
+            <p>Hiteknology Solutions (Pty) Ltd</p>
+            <p>Phone: 073-7974-505</p>
+            <p>Mobile: 081-550-0304</p>
+            <p>Mokwadi Street, Nellmapius, 4380</p>
+            <p>Reg No : 2021 / 347028 / 07</p>
+            <p><a href="https://hiteknologysolutions.co.za/" target="_blank">https://hiteknologysolutions.co.za/</a></p>
+          </section>
+        </div>
+
+        <footer>
+          <div class="right"></div>
+          <div class="left"></div>
+        </footer>
       </div>
 
     </div>

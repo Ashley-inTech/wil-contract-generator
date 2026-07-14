@@ -25,9 +25,12 @@ router.patch('/:id/status', wilLetterController.updateWilLetterStatus);
 router.delete('/:id', wilLetterController.deleteWilLetter);
 
 //Download contract pdf
-router.get('/participant/:participantId/pdf/download', wilLetterController.downloadContractPDF);
+router.get('/participant/:participantId/pdf/download', wilLetterController.downloadWilPDF);
 
 //Download contract docx
-router.get('/participant/:participantId/docx/download', wilLetterController.downloadContractDOCX);
+router.get('/participant/:participantId/docx/download', wilLetterController.downloadWilDOCX);
+
+// Check if WIL letter exists
+router.get('/participant/:participantId/check', wilLetterController.checkWilExists);
 
 export default router;

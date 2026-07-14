@@ -20,7 +20,7 @@ class DOCXService {
 
             case "wil-letter":
                 folder = await DocumentService.getWilDocxFolder();
-                templateFile = "will-letter.ejs";
+                templateFile = "wil-letter.ejs";
                 break;
 
             default:

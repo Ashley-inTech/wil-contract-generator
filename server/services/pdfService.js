@@ -57,7 +57,12 @@ class PDFService {
         const executablePath = this.getChromeExecutablePath();
         const launchOptions = {
             headless: true,
-            args: ["--no-sandbox", "--disable-setuid-sandbox"]
+            args: [
+                "--no-sandbox", 
+                "--disable-setuid-sandbox",
+                "--disable-dev-shm-usage",
+                "--disable-gpu"
+            ]
         };
 
         if (executablePath) {
@@ -71,6 +76,7 @@ class PDFService {
         const absolutePath = path.join(process.cwd(), relativePath);
 
         if (!fs.existsSync(absolutePath)) {
+            console.warn(`File not found: ${absolutePath}`);
             return "";
         }
 
@@ -95,7 +101,7 @@ class PDFService {
 
             case "wil-letter":
                 folder = await DocumentService.getWilPdfFolder();
-                templateFile = "will-letter.ejs";
+                templateFile = "wil-letter.ejs";
                 break;
 
             default:
@@ -120,9 +126,10 @@ class PDFService {
         const cssFilePath = path.join(process.cwd(), "client", "css", "index.css");
         const cssContent = await fsPromises.readFile(cssFilePath, "utf8");
 
+        // Build HTML with embedded CSS (no separate link tag)
         const html = await ejs.renderFile(templatePath, {
             participant: preparedParticipant,
-            cssContent,
+            cssContent: `<style>${cssContent}</style>`,
             logoDataUrl: this.fileToDataUrl(path.join("client", "assets", "logo.png")),
             signatureDataUrl: this.fileToDataUrl(path.join("client", "assets", "signature.png"))
         });
@@ -132,20 +139,21 @@ class PDFService {
         try {
             const page = await browser.newPage();
 
+            // Use A4 dimensions in pixels (595 x 842)
             await page.setViewport({
-                width: 1200,
-                height: 1600
+                width: 595,
+                height: 842,
+                deviceScaleFactor: 1
             });
 
             await page.emulateMediaType("print");
+            
+            // Set content with wait for all resources
             await page.setContent(html, {
-                waitUntil: "domcontentloaded"
+                waitUntil: "networkidle0"
             });
 
-            await page.addStyleTag({
-                content: cssContent
-            });
-
+            // Generate PDF with proper settings
             await page.pdf({
                 path: filePath,
                 format: "A4",
@@ -156,12 +164,18 @@ class PDFService {
                     right: "15mm",
                     bottom: "15mm",
                     left: "15mm"
-                }
+                },
+                displayHeaderFooter: false,
+                landscape: false
             });
+
+            console.log(`PDF generated: ${filename}`);
+
+        } catch (error) {
+            console.error(`Error generating PDF:`, error);
+            throw error;
         } finally {
-            console.log("Closing browser...");
             await browser.close();
-            console.log("Browser closed.");
         }
 
         return filename;

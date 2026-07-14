@@ -656,18 +656,201 @@ footer {
   background: #38bfd1;
 }
 
-#saveContractButton:hover {
+#saveContractBtn:hover {
   background: #206b75;
   transform: translateY(-2px);
 }
 
-#saveWilContract {
+#saveWilBtn {
   background: #38bfd1;
 }
 
-#saveWilContract:hover{
+#saveWilBtn:hover{
   background: #206b75;
   transform: translateY(-2px);
+}
+
+/* Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background: white;
+    padding: 30px;
+    border-radius: 8px;
+    max-width: 600px;
+    width: 90%;
+    max-height: 80vh;
+    overflow-y: auto;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+}
+
+.modal-header h3 {
+    margin: 0;
+}
+
+.modal-close {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: #666;
+    padding: 0 8px;
+}
+
+.modal-close:hover {
+    color: #000;
+}
+
+.document-section {
+    margin: 20px 0;
+}
+
+.document-buttons {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 10px;
+}
+
+.download-btn {
+    background: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.download-btn:hover {
+    background: #0056b3;
+}
+
+.download-btn:active {
+    transform: scale(0.98);
+}
+
+.view-group {
+    margin: 10px 0;
+}
+
+.view-group h4 {
+    margin-top: 15px;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.view-group ul {
+    padding-left: 20px;
+}
+
+.view-group p {
+    margin: 5px 0;
+}
+
+hr {
+    margin: 20px 0;
+    border: none;
+    border-top: 1px solid #eee;
+}
+
+/* Ensure lists display properly in PDF */
+.responsibility-list {
+  padding-left: 20px;
+  margin: 10px 0 20px;
+}
+
+.responsibility-list li {
+  margin-bottom: 5px;
+  font-size: 13px;
+  line-height: 1.8;
+}
+
+/* Ensure all page content is visible */
+.page-content {
+  flex: 1;
+  padding: 32px 0 20px;
+}
+
+/* Fix section margins */
+section {
+  padding: 0 60px;
+  margin-bottom: 20px;
+}
+
+/* Ensure headers are always visible */
+header {
+  display: block !important;
+  width: 100%;
+}
+
+/* Fix company representative name */
+.readonly-field {
+  font-size: 13px;
+  font-weight: 500;
+  margin: 8px 0;
+}
+
+/* Ensure proper page rendering for PDF */
+.page {
+    page-break-after: always;
+    break-after: page;
+    min-height: 100vh;
+    background: white;
+    position: relative;
+}
+
+.page:last-child {
+    page-break-after: auto;
+    break-after: auto;
+}
+
+/* Ensure all content is visible */
+.page-content {
+    flex: 1;
+    padding: 20px 0;
+}
+
+/* Fix for Puppeteer rendering */
+body {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+}
+
+/* Ensure headers show on all pages */
+header {
+    display: block !important;
+    page-break-inside: avoid;
+}
+
+/* Fix list rendering */
+ul, ol {
+    padding-left: 20px;
+    margin: 10px 0;
+}
+
+li {
+    margin-bottom: 5px;
 }
 
 .action-section button:hover {

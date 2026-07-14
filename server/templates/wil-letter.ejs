@@ -1,0 +1,381 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Work Integrated Learning Agreement</title>
+    <%- cssContent %>
+    <style>
+      /* Additional PDF-specific styles */
+      @page {
+        size: A4;
+        margin: 0;
+      }
+      
+      * {
+        box-sizing: border-box;
+      }
+      
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: "Poppins", sans-serif;
+        background: white;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+      
+      .document {
+        width: 100%;
+        max-width: 210mm;
+        margin: 0 auto;
+      }
+      
+      .page {
+        width: 100%;
+        min-height: 297mm;
+        padding: 0;
+        margin: 0;
+        background: white;
+        page-break-after: always;
+        break-after: page;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+      }
+      
+      /* Only add page break after all pages except the last one */
+      .page:not(:last-child) {
+        page-break-after: always;
+        break-after: page;
+      }
+      
+      .page-content {
+        flex: 1;
+        padding: 20px 0;
+      }
+      
+      header {
+        width: 100%;
+        display: block !important;
+        page-break-inside: avoid;
+      }
+      
+      header::before {
+        content: "";
+        display: block;
+        height: 38px;
+        background: linear-gradient(90deg, #b70089, #96166f);
+      }
+      
+      .company-info {
+        background-color: #282627;
+        display: flex;
+        position: relative;
+        padding: 0 150px;
+        align-items: center;
+        justify-content: space-between;
+      }
+      
+      .logo {
+        width: 120px;
+        height: 200px;
+        background: #00989b;
+        position: absolute;
+        top: -50px;
+        left: 60px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        color: #fff;
+        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.25);
+        padding: 0 20px;
+      }
+      
+      .logo img {
+        width: 80px;
+        margin-bottom: 8px;
+      }
+      
+      .logo h3 {
+        font-size: 14px;
+        font-weight: 300;
+        letter-spacing: 1px;
+        margin: 0;
+        text-align: center;
+      }
+      
+      .logo span {
+        font-weight: 700;
+      }
+      
+      .company-details {
+        margin-left: auto;
+        padding: 10px 0;
+      }
+      
+      .company-details ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+      
+      .company-details li {
+        color: #fff;
+        font-size: 11px;
+        margin: 4px 0;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      
+      .company-details li .icon-svg {
+        width: 14px;
+        height: 14px;
+        display: inline-block;
+        flex-shrink: 0;
+        fill: #ffffff;
+      }
+      
+      section {
+        padding: 0 50px;
+        margin-bottom: 15px;
+      }
+      
+      section p {
+        font-size: 12px;
+        margin-bottom: 6px;
+        text-align: justify;
+        line-height: 1.6;
+      }
+      
+      section h6, section h2, section h4 {
+        font-size: 14px;
+        margin: 20px 0 10px;
+        font-weight: 700;
+        text-transform: uppercase;
+      }
+      
+      .agreement-intro {
+        margin-top: 60px;
+      }
+      
+      .agreement-intro h5 {
+        font-size: 16px;
+        text-transform: uppercase;
+        margin: 15px 0 8px;
+      }
+      
+      .agreement-intro h5:first-child {
+        margin-top: 0;
+      }
+      
+      ul {
+        padding-left: 20px;
+        margin: 8px 0 15px;
+      }
+      
+      ul li {
+        font-size: 12px;
+        margin-bottom: 4px;
+        line-height: 1.6;
+      }
+      
+      .field-group {
+        margin-bottom: 15px;
+      }
+      
+      .field-group label {
+        display: block;
+        font-size: 12px;
+        font-weight: 500;
+        margin-bottom: 5px;
+      }
+      
+      .company-signature {
+        width: 150px;
+        height: auto;
+        display: block;
+        margin-top: 8px;
+      }
+      
+      .readonly-field {
+        font-size: 12px;
+        font-weight: 500;
+        margin: 8px 0;
+      }
+      
+      .contacts {
+        margin-top: 25px;
+        border-top: 1px solid #ddd;
+        padding-top: 15px;
+      }
+      
+      .contacts p {
+        font-size: 12px;
+        margin-bottom: 3px;
+      }
+      
+      .contacts a {
+        color: #0066cc;
+        text-decoration: none;
+      }
+      
+      footer {
+        width: 100%;
+        height: 22px;
+        display: flex;
+        margin-top: auto;
+      }
+      
+      .right {
+        width: 50%;
+        background: #088e92;
+      }
+      
+      .left {
+        width: 50%;
+        background: #38bfd1;
+      }
+      
+      .sticker-placeholder {
+        display: none;
+      }
+      
+      /* Fix for SVG icons in PDF */
+      .icon-svg {
+        display: inline-block;
+        vertical-align: middle;
+      }
+      
+      /* Ensure strong tags are bold */
+      strong {
+        font-weight: 700;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="document" id="document">
+
+      <!-- ======================= PAGE 1 ======================= -->
+      <div class="page" id="page1">
+        <header>
+              <div class="company-info">
+
+                  <div class="logo">
+                      <img src="<%= logoDataUrl %>" alt="Logo">
+                      <h3><span>HITEK</span>SOLUTIONS</h3>
+                  </div>
+
+                  <div class="company-details">
+                      <ul>
+
+                          <li>
+                              <svg class="icon-svg" viewBox="0 0 24 24" fill="white" width="16" height="16">
+                                  <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                              </svg>
+                              @hiteknologysol1
+                          </li>
+
+                          <li>
+                              <svg class="icon-svg" viewBox="0 0 24 24" fill="white" width="16" height="16">
+                                  <path d="M1.5 8.67v8.58a3 3 0 003 3h15a3 3 0 003-3V8.67l-8.928 5.493a3 3 0 01-3.144 0L1.5 8.67z"/>
+                                  <path d="M22.5 6.908V6.75a3 3 0 00-3-3h-15a3 3 0 00-3 3v.158l9.714 5.978a1.5 1.5 0 001.572 0L22.5 6.908z"/>
+                              </svg>
+                              info@hiteknologysolutions.co.za
+                          </li>
+
+                          <li>
+                              <svg class="icon-svg" viewBox="0 0 24 24" fill="white" width="16" height="16">
+                                  <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                              </svg>
+                              @hiteknologysolutions
+                          </li>
+
+                          <li>
+                              <svg class="icon-svg" viewBox="0 0 24 24" fill="white" width="16" height="16">
+                                  <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+                              </svg>
+                              +27 (0)73 797 4505
+                          </li>
+
+                      </ul>
+                  </div>
+
+              </div>
+          </header>
+
+
+        <div class="page-content">
+          <section class="agreement-intro">
+            <h5><strong>HITEKNOLOGY SOLUTIONS</strong></h5>
+            <h5><strong>Mokwadi Street, Nellmapius</strong></h5>
+
+            <p><%= participant.created_at %></p>
+
+            <p>To whom it may concern</p>
+            <p><strong>RE: CONFIRMATION OF WIL PROGRAM ENROLMENT</strong></p>
+
+            <p>
+              This letter serves to confirm that
+              <strong><%= participant.full_name %></strong>
+              of ID Number 
+              <strong><%= participant.id_number %></strong>
+              has been accepted to undergo Work Integrated Learning. Hiteknology Solutions is the Lead employer.
+            </p>
+          </section>
+
+          <section>
+            <h6>The learner will get exposure in the following areas:</h6>
+            <ul>
+              <% 
+                let exposureAreas = participant.exposure_areas || '';
+                let areas = exposureAreas.split('\n').filter(item => item.trim());
+                areas.forEach(area => { 
+              %>
+                <li><%= area.trim().replace(/^[•\s]+/, '') %></li>
+              <% }) %>
+            </ul>
+          </section>
+
+          <section>
+            <p>
+              The duration of the program is 11 months, starting on the 
+              <strong><%= participant.commencement_date %></strong>
+              to
+              <strong><%= participant.termination_date %></strong>
+            </p>
+          </section>
+
+          <section class="contacts">
+            <p>Sincerely,</p>
+            <p>Hiteknology Solutions (Pty) Ltd</p>
+            <p>Phone: 073-7974-505</p>
+            <p>Mobile: 081-550-0304</p>
+            <p>Mokwadi Street, Nellmapius, 4380</p>
+            <p>Reg No : 2021 / 347028 / 07</p>
+            <p><a href="https://hiteknologysolutions.co.za/" target="_blank">https://hiteknologysolutions.co.za/</a></p>
+          </section>
+
+          <section class="company-section">
+            <div class="field-group">
+              <p class="readonly-field"><strong>Mentor: S.A Mogano</strong></p>
+            </div>
+            <div class="field-group">
+              <label>Signature</label>
+              <img src="<%= signatureDataUrl %>" alt="Company Signature" class="company-signature" />
+            </div>
+          </section>
+        </div>
+
+        <footer>
+          <div class="right"></div>
+          <div class="left"></div>
+        </footer>
+      </div>
+
+    </div>
+  </body>
+</html>

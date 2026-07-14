@@ -139,7 +139,7 @@ class ContractController {
                     status: "Generated"
                 };
 
-                const contractId = await ContractModel.create(contractData);
+                const contractId = await ContractModel.create(contractData); 
                 contract = await ContractModel.getById(contractId);
             }
             
@@ -310,7 +310,7 @@ class ContractController {
     }
 
     //download docx contract
-    static async downloadContractDOCX(req, res) {
+    static async downloadContractDocx(req, res) {
 
         try {
 

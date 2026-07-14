@@ -73,59 +73,68 @@ class WilLetterController {
         console.log("WIL CONTROLLER REACHED");
         console.log("Params:", req.params);
         console.log("Body:", req.body);
+        console.log("Headers:", req.headers);
         console.log("================================");
 
         try {
             const { participantId } = req.params;
-            console.log("Participant:", participant);
             
-            // Check if participant exists
+            // Get participant from database
             const participant = await ParticipantModel.getById(participantId);
+            console.log("Participant found:", participant ? 'Yes' : 'No');
+            
             if (!participant) {
                 return res.status(404).json({
                     success: false,
                     message: 'Participant not found'
                 });
             }
-            
+
+            // Check if WIL letter already exists
             const existingLetter = await WilLetterModel.getLatest(participantId);
+            console.log("Existing letter:", existingLetter ? 'Yes' : 'No');
 
-            const pdfFilename = await PDFService.createPDF(
-                "wil-letter",
-                participant
-            );
+            // Generate PDF
+            console.log("Generating PDF...");
+            const pdfFilename = await PDFService.createPDF("wil-letter", participant);
+            console.log("PDF generated:", pdfFilename);
 
+            // Generate DOCX (optional)
             let docxFilename = null;
-
             try {
-                docxFilename = await DOCXService.createDOCX(
-                    "wil-letter",
-                    participant
-                );
+                console.log("Generating DOCX...");
+                docxFilename = await DOCXService.createDOCX("wil-letter", participant);
+                console.log("DOCX generated:", docxFilename);
             } catch (docxError) {
                 console.warn("WIL letter DOCX generation skipped:", docxError.message);
             }
 
+            // Save to database
             let letter;
-
             if (existingLetter) {
+                console.log("Updating existing letter...");
                 await WilLetterModel.update(existingLetter.wil_letter_id, {
                     generated_pdf: pdfFilename,
                     generated_docx: docxFilename,
-                    status: 'Generated'
+                    status: 'Generated',
+                    updated_at: new Date()
                 });
                 letter = await WilLetterModel.getById(existingLetter.wil_letter_id);
             } else {
+                console.log("Creating new letter...");
                 const letterData = {
-                    participant_id: participantId,
+                    participant_id: parseInt(participantId),
                     generated_pdf: pdfFilename,
                     generated_docx: docxFilename,
-                    status: 'Generated'
+                    status: 'Generated',
+                    created_at: new Date(),
+                    updated_at: new Date()
                 };
-
                 const letterId = await WilLetterModel.create(letterData);
                 letter = await WilLetterModel.getById(letterId);
             }
+            
+            console.log("WIL letter saved successfully");
             
             res.status(existingLetter ? 200 : 201).json({
                 success: true,
@@ -135,10 +144,13 @@ class WilLetterController {
                 data: letter
             });
         } catch (error) {
+            console.error("WIL Generation Error:", error);
+            console.error("Error stack:", error.stack);
             res.status(500).json({
                 success: false,
                 message: 'Error generating WIL letter',
-                error: error.message
+                error: error.message,
+                stack: process.env.NODE_ENV === 'development' ? error.stack : undefined
             });
         }
     }
@@ -233,7 +245,7 @@ class WilLetterController {
         }
     }
 
-    static async downloadContractPDF(req, res) {
+    static async downloadWilPDF(req, res) {
 
         try {
 
@@ -273,7 +285,7 @@ class WilLetterController {
 
     }
 
-    static async downloadContractDOCX(req, res) {
+    static async downloadWilDOCX(req, res) {
 
         try {
 
@@ -313,6 +325,25 @@ class WilLetterController {
 
     }
 
+    // Check if WIL letter exists for a participant
+    static async checkWilExists(req, res) {
+        try {
+            const { participantId } = req.params;
+            const letter = await WilLetterModel.getLatest(participantId);
+            
+            res.status(200).json({
+                success: true,
+                exists: !!letter,
+                data: letter
+            });
+        } catch (error) {
+            res.status(500).json({
+                success: false,
+                message: 'Error checking WIL letter',
+                error: error.message
+            });
+        }
+    }
 }
 
 export default WilLetterController;

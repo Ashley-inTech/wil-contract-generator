@@ -28,6 +28,6 @@ router.delete('/:id', contractController.deleteContract);
 router.get('/participant/:participantId/pdf/download', contractController.downloadContractPdf);
 
 //Download contract docx
-router.get('/participant/:participantId/docx/download', contractController.downloadContractDOCX);
+router.get('/participant/:participantId/docx/download', contractController.downloadContractDocx);
 
 export default router;
