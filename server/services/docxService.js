@@ -49,7 +49,8 @@ class DOCXService {
             participant: preparedParticipant,
             cssContent,
             logoDataUrl: PDFService.fileToDataUrl(path.join("client", "assets", "logo.png")),
-            signatureDataUrl: PDFService.fileToDataUrl(path.join("client", "assets", "signature.png"))
+            signatureDataUrl: PDFService.fileToDataUrl(path.join("client", "assets", "signature.png")),
+            stampLogoDataUrl: PDFService.fileToDataUrl(path.join("client", "assets", "stamp.png"))
         });
 
         const browser = await PDFService.launchBrowser();

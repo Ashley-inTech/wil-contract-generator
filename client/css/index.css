@@ -68,6 +68,32 @@ body {
   display: block;
 }
 
+.search {
+  max-width: 900px;
+  margin: 24px auto 0;
+  padding: 0 24px;
+}
+
+.search-input {
+  width: 100%;
+  border: 1px solid #d3d3d3;
+  border-radius: 12px;
+  padding: 14px 18px;
+  font-size: 15px;
+  color: #222;
+  background: #fff;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: #96166f;
+  box-shadow: 0 0 0 4px rgba(150, 22, 111, 0.08);
+}
+
 .wil-letter-card,
 .contents-card {
   max-width: 900px;
@@ -246,6 +272,14 @@ body {
 .empty-state {
   color: #666;
   font-size: 14px;
+}
+
+.stampContainer {
+  float: right; 
+  width: 200px; 
+  height: 250px; 
+  margin-top: 50px; 
+  margin-right: 20px;
 }
 
 .document {
@@ -665,113 +699,113 @@ footer {
   background: #38bfd1;
 }
 
-#saveWilBtn:hover{
+#saveWilBtn:hover {
   background: #206b75;
   transform: translateY(-2px);
 }
 
 /* Modal Styles */
 .modal {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    z-index: 1000;
-    justify-content: center;
-    align-items: center;
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  justify-content: center;
+  align-items: center;
 }
 
 .modal-content {
-    background: white;
-    padding: 30px;
-    border-radius: 8px;
-    max-width: 600px;
-    width: 90%;
-    max-height: 80vh;
-    overflow-y: auto;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  background: white;
+  padding: 30px;
+  border-radius: 8px;
+  max-width: 600px;
+  width: 90%;
+  max-height: 80vh;
+  overflow-y: auto;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
 }
 
 .modal-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-    border-bottom: 1px solid #eee;
-    padding-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 10px;
 }
 
 .modal-header h3 {
-    margin: 0;
+  margin: 0;
 }
 
 .modal-close {
-    background: none;
-    border: none;
-    font-size: 24px;
-    cursor: pointer;
-    color: #666;
-    padding: 0 8px;
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #666;
+  padding: 0 8px;
 }
 
 .modal-close:hover {
-    color: #000;
+  color: #000;
 }
 
 .document-section {
-    margin: 20px 0;
+  margin: 20px 0;
 }
 
 .document-buttons {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-    margin-top: 10px;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 10px;
 }
 
 .download-btn {
-    background: #007bff;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 14px;
+  background: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
 }
 
 .download-btn:hover {
-    background: #0056b3;
+  background: #0056b3;
 }
 
 .download-btn:active {
-    transform: scale(0.98);
+  transform: scale(0.98);
 }
 
 .view-group {
-    margin: 10px 0;
+  margin: 10px 0;
 }
 
 .view-group h4 {
-    margin-top: 15px;
-    margin-bottom: 10px;
-    color: #333;
+  margin-top: 15px;
+  margin-bottom: 10px;
+  color: #333;
 }
 
 .view-group ul {
-    padding-left: 20px;
+  padding-left: 20px;
 }
 
 .view-group p {
-    margin: 5px 0;
+  margin: 5px 0;
 }
 
 hr {
-    margin: 20px 0;
-    border: none;
-    border-top: 1px solid #eee;
+  margin: 20px 0;
+  border: none;
+  border-top: 1px solid #eee;
 }
 
 /* Ensure lists display properly in PDF */
@@ -813,462 +847,448 @@ header {
 
 /* Ensure proper page rendering for PDF */
 .page {
-    page-break-after: always;
-    break-after: page;
-    min-height: 100vh;
-    background: white;
-    position: relative;
+  page-break-after: always;
+  break-after: page;
+  min-height: 100vh;
+  background: white;
+  position: relative;
 }
 
 .page:last-child {
-    page-break-after: auto;
-    break-after: auto;
+  page-break-after: auto;
+  break-after: auto;
 }
 
 /* Ensure all content is visible */
 .page-content {
-    flex: 1;
-    padding: 20px 0;
+  flex: 1;
+  padding: 20px 0;
 }
 
 /* Fix for Puppeteer rendering */
 body {
-    -webkit-print-color-adjust: exact;
-    print-color-adjust: exact;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
 }
 
 /* Ensure headers show on all pages */
 header {
-    display: block !important;
-    page-break-inside: avoid;
+  display: block !important;
+  page-break-inside: avoid;
 }
 
 /* Fix list rendering */
-ul, ol {
-    padding-left: 20px;
-    margin: 10px 0;
+ul,
+ol {
+  padding-left: 20px;
+  margin: 10px 0;
 }
 
 li {
-    margin-bottom: 5px;
+  margin-bottom: 5px;
 }
 
 .action-section button:hover {
   transform: translateY(-2px);
   background: #8a006c;
-  }
-
-  #downloadWord {
-    background: #088e92;
-  }
-
-  #downloadPDF {
-    background: #38bfd1;
-  }
-
-  #downloadWord:hover {
-    background: #033132;
-    transform: translateY(-2px);
-  }
-
-  #downloadPDF:hover {
-    background: #206b75;
-    transform: translateY(-2px);
-  }
-
-.pagination{
-
-    display:flex;
-    justify-content:center;
-    gap:8px;
-
-    margin-top:30px;
-    flex-wrap:wrap;
 }
 
-.pagination button{
-
-    padding:10px 16px;
-
-    border:none;
-
-    border-radius:6px;
-
-    background:#ececec;
-
-    cursor:pointer;
-
-    transition:.2s;
+#downloadWord {
+  background: #088e92;
 }
 
-.pagination button:hover{
-
-    background:#dcdcdc;
+#downloadPDF {
+  background: #38bfd1;
 }
 
-.pagination button.active{
-
-    background:#b70089;
-
-    color:white;
+#downloadWord:hover {
+  background: #033132;
+  transform: translateY(-2px);
 }
 
-.pagination button:disabled{
-
-    opacity:.5;
-
-    cursor:not-allowed;
+#downloadPDF:hover {
+  background: #206b75;
+  transform: translateY(-2px);
 }
 
-  .pdf-preview {
-    display: none;
-    white-space: pre-wrap;
-    word-wrap: break-word;
-    border: 1px solid #cfcfcf;
-    padding: 15px;
-    min-height: 260px;
-    font-size: 13px;
-    line-height: 1.8;
-    font-family: "Poppins", sans-serif;
-  }
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
 
-  .company-signature {
-    width: 180px;
-    height: auto;
-    display: block;
-    margin-top: 10px;
-  }
+  margin-top: 30px;
+  flex-wrap: wrap;
+}
 
-  /* Signature area - blank space for physical signature */
-  .signature-area {
+.pagination button {
+  padding: 10px 16px;
+
+  border: none;
+
+  border-radius: 6px;
+
+  background: #ececec;
+
+  cursor: pointer;
+
+  transition: 0.2s;
+}
+
+.pagination button:hover {
+  background: #dcdcdc;
+}
+
+.pagination button.active {
+  background: #b70089;
+
+  color: white;
+}
+
+.pagination button:disabled {
+  opacity: 0.5;
+
+  cursor: not-allowed;
+}
+
+.pdf-preview {
+  display: none;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  border: 1px solid #cfcfcf;
+  padding: 15px;
+  min-height: 260px;
+  font-size: 13px;
+  line-height: 1.8;
+  font-family: "Poppins", sans-serif;
+}
+
+.company-signature {
+  width: 180px;
+  height: auto;
+  display: block;
+  margin-top: 10px;
+}
+
+/* Signature area - blank space for physical signature */
+.signature-area {
+  width: 100%;
+  height: 120px;
+  border: 2px dashed #999;
+  border-radius: 6px;
+  background: #fafafa;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #aaa;
+  font-size: 13px;
+  font-family: "Poppins", sans-serif;
+  margin-top: 5px;
+}
+
+.signature-area span {
+  opacity: 0.6;
+}
+
+.editor-only {
+  margin-bottom: 15px;
+}
+
+.editor-only label {
+  font-weight: 500;
+  font-size: 13px;
+  display: block;
+  margin-bottom: 4px;
+}
+
+/* Blank line placeholders for manual signing */
+.blank-line {
+  display: inline-block;
+  border-bottom: 2px solid #555;
+  height: 22px;
+  min-width: 60px;
+  margin: 0 4px;
+  background: transparent;
+}
+
+/* Signed at section styling */
+.field-group p {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+
+.field-group p span {
+  font-size: 13px;
+}
+
+/* Career Modal */
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.45);
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.modal-content {
+  background: white;
+  padding: 30px;
+  width: 500px;
+  max-width: 90%;
+  border-radius: 8px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.25);
+  font-family: "Poppins", sans-serif;
+}
+
+.modal-content h3 {
+  margin-bottom: 20px;
+  color: #b70089;
+  font-weight: 500;
+  font-size: 13px;
+  margin-bottom: 8px;
+}
+
+.modal-field {
+  margin-bottom: 18px;
+}
+
+.modal-content input,
+.modal-content textarea {
+  width: 100%;
+  margin-top: 5px;
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-family: "Poppins", sans-serif;
+  font-size: 13px;
+}
+
+.modal-content input:focus,
+.modal-content textarea:focus {
+  border-color: #11a7aa;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(17, 167, 170, 0.2);
+}
+
+.modal-content .modal-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.modal-content button {
+  padding: 10px 24px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-family: "Poppins", sans-serif;
+  font-size: 13px;
+  transition: background 0.3s;
+}
+
+.view-group {
+  display: grid;
+  gap: 12px;
+  color: #333;
+}
+
+.view-group h4 {
+  margin: 16px 0 8px;
+  font-size: 16px;
+  color: #b70089;
+}
+
+.view-group p {
+  margin: 0;
+  line-height: 1.6;
+}
+
+.view-group ul {
+  padding-left: 20px;
+  margin: 0;
+}
+
+.view-group li {
+  margin-bottom: 8px;
+}
+
+.wil-letter-preview ul {
+  padding-left: 20px;
+  margin: 8px 0 18px;
+}
+
+.wil-letter-preview li {
+  margin-bottom: 8px;
+}
+
+#saveCareerBtn {
+  background: #088e92;
+  color: white;
+}
+
+#saveCareerBtn:hover {
+  background: #066b6e;
+}
+
+#cancelCareerBtn {
+  background: #999;
+  color: white;
+}
+
+#cancelCareerBtn:hover {
+  background: #777;
+}
+
+.exposure-input-row {
+  display: flex;
+  gap: 10px;
+}
+
+.exposure-input-row input {
+  flex: 1;
+}
+
+.exposure-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  max-height: 250px;
+  overflow: auto;
+}
+
+.exposure-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 8px;
+  margin-bottom: 6px;
+
+  border: 1px solid #ddd;
+  border-radius: 6px;
+}
+
+.removeExposure {
+  cursor: pointer;
+  color: red;
+  font-weight: bold;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .document,
+  .download-section,
+  .wil-letter-card,
+  .contents-card {
     width: 100%;
-    height: 120px;
-    border: 2px dashed #999;
-    border-radius: 6px;
-    background: #fafafa;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #aaa;
-    font-size: 13px;
-    font-family: "Poppins", sans-serif;
-    margin-top: 5px;
   }
 
-  .signature-area span {
-    opacity: 0.6;
+  .page {
+    padding: 35px 0;
   }
 
-  .editor-only {
-    margin-bottom: 15px;
+  .logo {
+    left: 25px;
   }
 
-  .editor-only label {
-    font-weight: 500;
-    font-size: 13px;
+  section {
+    padding: 0 20px;
+  }
+
+  #role,
+  #signedAt,
+  #signedMonth,
+  #signedDate,
+  #declarationName,
+  #declarationId,
+  .field-group input {
+    width: 100%;
     display: block;
-    margin-bottom: 4px;
+    margin: 8px 0;
   }
 
-  /* Blank line placeholders for manual signing */
-  .blank-line {
-    display: inline-block;
-    border-bottom: 2px solid #555;
-    height: 22px;
-    min-width: 60px;
-    margin: 0 4px;
-    background: transparent;
+  textarea {
+    min-height: 220px;
   }
 
-  /* Signed at section styling */
+  .download-section {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .download-section button {
+    width: 250px;
+  }
+
   .field-group p {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: flex-start;
   }
 
-  .field-group p span {
-    font-size: 13px;
+  .blank-line {
+    min-width: 100px;
   }
 
-  /* Career Modal */
-  .modal {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.45);
-    justify-content: center;
-    align-items: center;
-    z-index: 9999;
+  .career-select-wrapper {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  #careerCategory {
+    max-width: 100%;
   }
 
   .modal-content {
-    background: white;
-    padding: 30px;
-    width: 500px;
-    max-width: 90%;
-    border-radius: 8px;
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.25);
-    font-family: "Poppins", sans-serif;
+    width: 95%;
+    padding: 20px;
   }
-
-  .modal-content h3 {
-    margin-bottom: 20px;
-    color: #b70089;
-    font-weight: 500;
-    font-size: 13px;
-    margin-bottom: 8px;
-  }
-
-  .modal-field {
-    margin-bottom: 18px;
-  }
-
-  .modal-content input,
-  .modal-content textarea {
-    width: 100%;
-    margin-top: 5px;
-    padding: 8px 12px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-family: "Poppins", sans-serif;
-    font-size: 13px;
-  }
-
-  .modal-content input:focus,
-  .modal-content textarea:focus {
-    border-color: #11a7aa;
-    outline: none;
-    box-shadow: 0 0 0 2px rgba(17, 167, 170, 0.2);
-  }
-
-  .modal-content .modal-buttons {
-    display: flex;
-    gap: 10px;
-    margin-top: 20px;
-  }
-
-  .modal-content button {
-    padding: 10px 24px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-family: "Poppins", sans-serif;
-    font-size: 13px;
-    transition: background 0.3s;
-  }
-
-  .view-group {
-    display: grid;
-    gap: 12px;
-    color: #333;
-  }
-
-  .view-group h4 {
-    margin: 16px 0 8px;
-    font-size: 16px;
-    color: #b70089;
-  }
-
-  .view-group p {
-    margin: 0;
-    line-height: 1.6;
-  }
-
-  .view-group ul {
-    padding-left: 20px;
-    margin: 0;
-  }
-
-  .view-group li {
-    margin-bottom: 8px;
-  }
-
-  .wil-letter-preview ul {
-    padding-left: 20px;
-    margin: 8px 0 18px;
-  }
-
-  .wil-letter-preview li {
-    margin-bottom: 8px;
-  }
-
-  #saveCareerBtn {
-    background: #088e92;
-    color: white;
-  }
-
-  #saveCareerBtn:hover {
-    background: #066b6e;
-  }
-
-  #cancelCareerBtn {
-    background: #999;
-    color: white;
-  }
-
-  #cancelCareerBtn:hover {
-    background: #777;
-  }
-
-  .exposure-input-row{
-
-    display:flex;
-    gap:10px;
-
 }
 
-.exposure-input-row input{
-
-      flex:1;
-
+/* Print */
+@media print {
+  body {
+    background: #fff;
   }
 
-  .exposure-list{
-
-      list-style:none;
-      padding:0;
-      margin:0;
-      max-height:250px;
-      overflow:auto;
-
+  .document {
+    width: 100%;
+    margin: 0;
   }
 
-  .exposure-list li{
-
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-
-      padding:8px;
-      margin-bottom:6px;
-
-      border:1px solid #ddd;
-      border-radius:6px;
-
+  .page {
+    width: 100%;
+    min-height: 100vh;
+    margin-bottom: 0;
+    box-shadow: none;
+    page-break-after: always;
+    break-after: page;
   }
 
-  .removeExposure{
-
-      cursor:pointer;
-      color:red;
-      font-weight:bold;
+  .page:last-child {
+    page-break-after: auto;
+    break-after: auto;
   }
 
-  /* Responsive */
-  @media (max-width: 900px) {
-    .document,
-    .download-section,
-    .wil-letter-card,
-    .contents-card {
-      width: 100%;
-    }
-
-    .page {
-      padding: 35px 0;
-    }
-
-    .logo {
-      left: 25px;
-    }
-
-    section {
-      padding: 0 20px;
-    }
-
-    #role,
-    #signedAt,
-    #signedMonth,
-    #signedDate,
-    #declarationName,
-    #declarationId,
-    .field-group input {
-      width: 100%;
-      display: block;
-      margin: 8px 0;
-    }
-
-    textarea {
-      min-height: 220px;
-    }
-
-    .download-section {
-      flex-direction: column;
-      align-items: center;
-    }
-
-    .download-section button {
-      width: 250px;
-    }
-
-    .field-group p {
-      flex-direction: column;
-      align-items: flex-start;
-    }
-
-    .blank-line {
-      min-width: 100px;
-    }
-
-    .career-select-wrapper {
-      flex-direction: column;
-      align-items: stretch;
-    }
-
-    #careerCategory {
-      max-width: 100%;
-    }
-
-    .modal-content {
-      width: 95%;
-      padding: 20px;
-    }
+  .download-section {
+    display: none;
   }
 
-  /* Print */
-  @media print {
-    body {
-      background: #fff;
-    }
-
-    .document {
-      width: 100%;
-      margin: 0;
-    }
-
-    .page {
-      width: 100%;
-      min-height: 100vh;
-      margin-bottom: 0;
-      box-shadow: none;
-      page-break-after: always;
-      break-after: page;
-    }
-
-    .page:last-child {
-      page-break-after: auto;
-      break-after: auto;
-    }
-
-    .download-section {
-      display: none;
-    }
-
-    .editor-only {
-      display: none !important;
-    }
-
-    .signature-area {
-      border: 2px solid #999;
-    }
-
-    #role {
-      color: #000000;
-      font-weight: 400;
-    }
+  .editor-only {
+    display: none !important;
   }
 
+  .signature-area {
+    border: 2px solid #999;
+  }
+
+  #role {
+    color: #000000;
+    font-weight: 400;
+  }
+}

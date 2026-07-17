@@ -19,6 +19,16 @@
       </div>
     </nav>
 
+    <div class="search">
+      <input
+        type="search"
+        id="searchInput"
+        class="search-input"
+        placeholder="Search participants by name, ID, career, or status"
+        aria-label="Search participants"
+      />
+    </div>
+
     <div class="contents-card">
       <div class="contents-header">
         <h2>Contents</h2>
@@ -36,44 +46,83 @@
     </div>
 
     <!-- View Contract Modal -->
-    <div id="contractViewModal" class="modal" style="display:none;">
+    <div id="contractViewModal" class="modal" style="display: none">
       <div class="modal-content">
         <div class="modal-header">
           <h3>Saved Contract Details</h3>
-          <button type="button" class="modal-close" id="closeViewModalBtn">&times;</button>
+          <button type="button" class="modal-close" id="closeViewModalBtn">
+            &times;
+          </button>
         </div>
         <div id="contractViewContent"></div>
       </div>
     </div>
 
     <!-- Documents Modal -->
-    <div id="documentsModal" class="modal" style="display:none;">
+    <div id="documentsModal" class="modal" style="display: none">
       <div class="modal-content">
         <div class="modal-header">
           <h3 id="modalParticipantName">Documents</h3>
-          <button type="button" class="modal-close" id="closeDocumentsModalBtn">&times;</button>
+          <button type="button" class="modal-close" id="closeDocumentsModalBtn">
+            &times;
+          </button>
         </div>
         <div id="documentsList">Loading...</div>
       </div>
     </div>
 
     <!-- Generate WIL Modal -->
-    <div id="generateWilModal" class="modal" style="display:none;">
+    <div id="generateWilModal" class="modal" style="display: none">
       <div class="modal-content">
         <div class="modal-header">
           <h3>Generate WIL Letter</h3>
-          <button type="button" class="modal-close" id="closeGenerateWilModalBtn">&times;</button>
+          <button
+            type="button"
+            class="modal-close"
+            id="closeGenerateWilModalBtn"
+          >
+            &times;
+          </button>
         </div>
         <div id="generateWilContent">
           <p>Select a participant to generate a WIL letter:</p>
-          <select id="wilParticipantSelect" style="width:100%; padding:8px; margin:10px 0; border:1px solid #ccc; border-radius:4px;">
+          <select
+            id="wilParticipantSelect"
+            style="
+              width: 100%;
+              padding: 8px;
+              margin: 10px 0;
+              border: 1px solid #ccc;
+              border-radius: 4px;
+            "
+          >
             <option value="">-- Select Participant --</option>
           </select>
-          <div style="display:flex; gap:10px; margin-top:15px;">
-            <button id="generateWilBtn" style="background:#b70089; color:white; border:none; padding:10px 20px; border-radius:4px; cursor:pointer;">
+          <div style="display: flex; gap: 10px; margin-top: 15px">
+            <button
+              id="generateWilBtn"
+              style="
+                background: #b70089;
+                color: white;
+                border: none;
+                padding: 10px 20px;
+                border-radius: 4px;
+                cursor: pointer;
+              "
+            >
               Generate WIL Letter
             </button>
-            <button id="cancelGenerateWilBtn" style="background:#999; color:white; border:none; padding:10px 20px; border-radius:4px; cursor:pointer;">
+            <button
+              id="cancelGenerateWilBtn"
+              style="
+                background: #999;
+                color: white;
+                border: none;
+                padding: 10px 20px;
+                border-radius: 4px;
+                cursor: pointer;
+              "
+            >
               Cancel
             </button>
           </div>
@@ -82,9 +131,25 @@
     </div>
 
     <!-- Floating Generate WIL Button -->
-    <div style="position:fixed; bottom:30px; right:30px; z-index:999;">
-      <button id="floatingGenerateWilBtn" style="background:#b70089; color:white; border:none; padding:15px 25px; border-radius:50px; cursor:pointer; box-shadow:0 4px 15px rgba(183,0,137,0.3); font-size:14px; font-weight:600; display:flex; align-items:center; gap:8px;">
-        <span style="font-size:20px;">📄</span> Generate WIL
+    <div style="position: fixed; bottom: 30px; right: 30px; z-index: 999">
+      <button
+        id="floatingGenerateWilBtn"
+        style="
+          background: #b70089;
+          color: white;
+          border: none;
+          padding: 15px 25px;
+          border-radius: 50px;
+          cursor: pointer;
+          box-shadow: 0 4px 15px rgba(183, 0, 137, 0.3);
+          font-size: 14px;
+          font-weight: 600;
+          display: flex;
+          align-items: center;
+          gap: 8px;
+        "
+      >
+        <span style="font-size: 20px">📄</span> Generate WIL
       </button>
     </div>
 

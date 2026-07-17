@@ -182,7 +182,8 @@ class PDFService {
             participant: preparedParticipant,
             cssContent: `<style>${cssContent}</style>`,
             logoDataUrl: this.fileToDataUrl(path.join("client", "assets", "logo.png")),
-            signatureDataUrl: this.fileToDataUrl(path.join("client", "assets", "signature.png"))
+            signatureDataUrl: this.fileToDataUrl(path.join("client", "assets", "signature.png")),
+            stampLogoDataUrl: this.fileToDataUrl(path.join("client", "assets", "stamp.png"))
         });
 
         const browser = await this.launchBrowser();
